@@ -1,0 +1,218 @@
+syntax = "proto3";
+
+// This reply message is sent to acknowledge successful processing of a
+// JetsonToMcu message
+message Ack
+{
+    enum ErrorCode {
+        SUCCESS = 0;
+        VERSION = 1;          // unsupported version
+        RANGE = 2;            // argument is out of range
+        IN_PROGRESS = 3;      // operation is already in progress
+        FAIL = 4;             // operation failed
+        OVER_TEMPERATURE = 5; // operation could not be completed because of
+        // over-temperature
+        OPERATION_NOT_SUPPORTED = 6;
+        INVALID_STATE = 7; // message cannot be correctly processed because of
+        // the current state
+    }
+    uint32 ack_number = 1;
+    ErrorCode error = 2;
+}
+
+// Note: if a new firmware image has been loaded in the microcontroller's
+// secondary slot, the bootloader will try to update the application. In
+// this particular case, the Jetson will be turned off.
+message RebootWithDelay
+{
+    uint32 delay = 1; // [0...60] seconds
+}
+
+// Sends a new application firmware to the main MCU.
+// Binary is chunked into image_block. A total number of block_count has to
+// be sent to transmit the full binary, starting with block_number = 0.
+// FirmwareUpdateData messages must be sent after the previous one has been
+// acknowledged
+message FirmwareUpdateData
+{
+    fixed32 block_number =
+        1; // current block number, starts at `0`, ends at `block_count-1`
+    fixed32 block_count = 2; // total number of blocks to send, won't change
+    // for the same firmware image
+    bytes image_block =
+        3; // block (maximum size defined in `mcu_messaging.options`)
+}
+
+// Heartbeat message to detect any issue with the Jetson
+// the heartbeat. Activated once the first heartbeat has been received,
+// and disabled with `timeout_seconds` set to 0.
+// The Jetson must make sure a new heartbeat message has been sent before
+// `timeout` The Ack response acts as a safeguard to ensure microcontroller
+// responsiveness
+message Heartbeat
+{
+    uint32 timeout_seconds =
+        1; // after this timeout, the Jetson is considered unresponsive
+}
+
+message FirmwareImageCheck
+{
+    // CRC32 to verify image integrity on the microcontroller's Flash (secondary
+    // slot). CRC32 is computed over the entire signed and encrypted firmware
+    // image (binary file) used for the update. Ack will return FAIL if the CRC
+    // doesn't match.
+    uint32 crc32 = 1;
+}
+
+// Activate secondary application will mark the application present into the
+// second slot as ready to be used. Make sure to reboot the main MCU to actually
+// boot the activated application using RebootWithDelay payload or by turning
+// off the Jetson leading to the JETSON_!SHUTDOWN_REQ!_5V line being pulled low
+message FirmwareActivateSecondary
+{
+    // force the image to be used permanently even if it doesn't mark itself as
+    // permanent the default behavior is to let the image validate itself once
+    // it considers to be fully started and functional
+    bool force_permanent = 1;
+}
+
+// Confirm usage of running firmware image (primary slot) in subsequent reboots
+// This command returns failure through an ack error in these cases:
+// - Ack_ErrorCode_FAIL: image self-test didn't end up successfully meaning the
+// image shouldn't be confirmed but reverted by using
+// `FirmwareActivateSecondary`
+// - Ack_ErrorCode_INVALID_STATE: running image already confirmed
+// - Ack_ErrorCode_VERSION: version in secondary slot higher than version in
+// primary slot meaning the image has not been installed successfully
+message FirmwareConfirmPrimary {}
+
+message ValueGet
+{
+    enum Value {
+        // Ask for firmware versions in MCU slots, response will be sent using a
+        // Versions message
+        FIRMWARE_VERSIONS = 0;
+        // Ask for Hardware
+        HARDWARE_VERSIONS = 1;
+        // Ask for Tamper state (security board only)
+        TAMPER_STATES = 2;
+        // Ask for battery status (percentage, voltage, charging state will be
+        // sent in one or several messages)
+        BATTERY_STATUS = 3;
+        // Ask if cone is connected
+        CONE_PRESENT = 4;
+    }
+    Value value = 1;
+}
+
+// Hardware specs
+message Hardware
+{
+    enum OrbVersion {
+        HW_VERSION_UNKNOWN = 0;
+        HW_VERSION_PEARL_EV1 = 1;
+        HW_VERSION_PEARL_EV2 = 2;
+        HW_VERSION_PEARL_EV3 = 3;
+        HW_VERSION_PEARL_EV4 = 4;
+        HW_VERSION_PEARL_EV5 = 5;
+
+        HW_VERSION_DIAMOND_POC1 = 20;
+        HW_VERSION_DIAMOND_POC2 = 21;
+    }
+    OrbVersion version = 1;
+}
+
+message Temperature
+{
+    enum TemperatureSource {
+        JETSON = 0;
+        MAIN_MCU = 1;
+        SECURITY_MCU = 2;
+        LIQUID_LENS = 3;
+        FRONT_UNIT = 4;
+        MAIN_ACCELEROMETER = 5;
+        SECURITY_ACCELEROMETER = 6;
+        BACKUP_BATTERY = 7;
+        BATTERY_PCB = 8;
+        BATTERY_CELL = 9;
+        MAIN_BOARD = 10;
+        BATTERY_PACK = 11;
+        MAIN_BOARD_USB_HUB_BOT = 12;
+        MAIN_BOARD_USB_HUB_TOP = 13;
+        MAIN_BOARD_SECURITY_SUPPLY = 14;
+        MAIN_BOARD_AUDIO_AMPLIFIER = 15;
+        POWER_BOARD_SUPER_CAP_CHARGER = 16;
+        POWER_BOARD_PVCC_SUPPLY = 17;
+        POWER_BOARD_SUPER_CAPS_LEFT = 18;
+        POWER_BOARD_SUPER_CAPS_RIGHT = 19;
+        FRONT_UNIT_850_730_LEFT_TOP = 20;
+        FRONT_UNIT_850_730_LEFT_BOTTOM = 21;
+        FRONT_UNIT_850_730_RIGHT_TOP = 22;
+        FRONT_UNIT_850_730_RIGHT_BOTTOM = 23;
+        FRONT_UNIT_940_LEFT_TOP = 24;
+        FRONT_UNIT_940_LEFT_BOTTOM = 25;
+        FRONT_UNIT_940_RIGHT_TOP = 26;
+        FRONT_UNIT_940_RIGHT_BOTTOM = 27;
+        FRONT_UNIT_940_CENTER_TOP = 28;
+        FRONT_UNIT_940_CENTER_BOTTOM = 29;
+        FRONT_UNIT_WHITE_TOP = 30;
+        FRONT_UNIT_SHROUD_RGB_TOP = 31;
+    }
+
+    TemperatureSource source = 1;
+    int32 temperature_c = 2; // Temperature in Celsius
+}
+
+// Log messages that don't fit into one McuMessage are sent successively as
+// separated string that must be reassembled. The `\n` character mark the end
+// of a log string.
+message Log { string log = 1; }
+
+message BatteryStatus
+{
+    enum BatteryState {
+        DISCHARGING = 0;
+        CHARGING = 1;
+        FULL = 2;
+        BAD = 3;
+    }
+
+    int32 voltage_mv = 1;
+    int32 percentage = 2;
+    BatteryState state = 3;
+}
+
+// Fatal condition causing reset encountered a microcontroller
+// arg is optional and depends on the reason, not used if not specified in the
+// comments
+message FatalError
+{
+    enum FatalReason {
+        FATAL_K_FATAL = 0; // kernel panic, arg = k_fatal_error_reason
+        FATAL_CRITICAL_TEMPERATURE = 1; // arg = sensor in critical temperature,
+        // see enum TemperatureSource
+        FATAL_ASSERT_HARD = 2; // assertion failed
+        FATAL_WATCHDOG = 3;    // watchdog timeout
+        FATAL_BROWNOUT = 4;    // brown-out reset
+        FATAL_LOW_POWER = 5;   // illegal Stop, Standby or Shutdown mode entry
+        FATAL_SOFTWARE_UNKNOWN = 6; // software reset from unknown location
+        FATAL_PIN_RESET = 7; // reset pin (debugger or long press on main MCU)
+    }
+    FatalReason reason = 1;
+    uint32 arg = 2;
+}
+
+message FirmwareVersion
+{
+    uint32 major = 1;
+    uint32 minor = 2;
+    uint32 patch = 3;
+    uint32 commit_hash = 4;
+}
+
+// Send firmware images in primary (running) and secondary (backup) slots
+message Versions
+{
+    FirmwareVersion primary_app = 1;
+    FirmwareVersion secondary_app = 2;
+}

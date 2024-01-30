@@ -1,0 +1,5 @@
+config ORB_MCU_MESSAGING_LIB
+    bool "Orb protobuf definitions"
+    depends on NANOPB
+    help
+        Protobuf definitions for communications between the MCUs and the Jetson

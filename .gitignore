@@ -1,0 +1,18 @@
+*.egg-info/
+*.DS_Store
+
+target/
+__pycache__/
+nanopb_out/
+.docker_image_built
+out.bin
+
+# generated symlinks
+mcu_messaging_sec_priv.proto
+mcu_messaging_sec_priv.options
+
+# open source
+private/**
+.github/**
+nanopb
+.gitmodules
