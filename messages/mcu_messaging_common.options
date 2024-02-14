@@ -1,0 +1,2 @@
+FirmwareUpdateData.image_block max_size: 39
+Log.log max_length: 50

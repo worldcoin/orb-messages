@@ -1,0 +1,832 @@
+syntax = "proto3";
+
+import "mcu_messaging_common.proto";
+
+// Any change in version number should be made only if:
+// - at least one new field is mandatory for the message to be correctly
+// interpreted
+// - at least one field has been "renumbered"
+// - at least one field type has changed
+// Do not change version otherwise.
+// ⚠️ Version 0 considered as not stable
+
+//
+enum Version {
+    VERSION_0 = 0;
+}
+
+message McuMessage
+{
+    Version version = 1;
+    oneof message
+    {
+        JetsonToMcu j_message = 2;
+        McuToJetson m_message = 3;
+    }
+}
+
+message JetsonToMcu
+{
+    reserved 15; // was 740nm brightness
+
+    uint32 ack_number = 1; // monotonically incrementing number. We will
+                           // acknowledge all messages
+
+    oneof payload
+    {
+        ShutdownWithDelay shutdown = 2;
+        RebootWithDelay reboot = 3;
+        Temperature temperature = 4;
+        MirrorAngle mirror_angle = 5;
+        PerformMirrorHoming do_homing = 6;
+        InfraredLEDs infrared_leds = 7;
+        LedOnTimeUs led_on_time = 8;
+        CameraMaxFrameRate max_frame_rate = 9;
+        UserLEDsPattern user_leds_pattern = 10;
+        UserLEDsBrightness user_leds_brightness = 11;
+        DistributorLEDsPattern distributor_leds_pattern = 12;
+        DistributorLEDsBrightness distributor_leds_brightness = 13;
+        FirmwareUpdateData dfu_block = 14;
+        StartTriggeringIrEyeCamera start_triggering_ir_eye_camera = 16;
+        StopTriggeringIrEyeCamera stop_triggering_ir_eye_camera = 17;
+        StartTriggeringIrFaceCamera start_triggering_ir_face_camera = 18;
+        StopTriggeringIrFaceCamera stop_triggering_ir_face_camera = 19;
+        StartTriggering2dTofCamera start_triggering_2dtof_camera = 20;
+        StopTriggering2dTofCamera stop_triggering_2dtof_camera = 21;
+        TemperatureSamplePeriod temperature_sample_period = 23;
+        FanSpeed fan_speed = 24;
+        Fps fps = 25;
+        LiquidLens liquid_lens = 26;
+        VoltageRequest voltage_request = 27;
+        FirmwareImageCheck fw_image_check = 28;
+        FirmwareActivateSecondary fw_image_secondary_activate = 29;
+        Heartbeat heartbeat = 30;
+        LedOnTimeUs led_on_time_740nm = 31;
+        MirrorAngleRelative mirror_angle_relative = 32;
+        ValueGet value_get = 33;
+        UserRingLEDsSequence ring_leds_sequence = 34;
+        UserCenterLEDsSequence center_leds_sequence = 35;
+        DistributorLEDsSequence distributor_leds_sequence = 36;
+        FirmwareConfirmPrimary fw_image_primary_confirm = 37;
+        IREyeCameraFocusSweepValuesPolynomial
+            ir_eye_camera_focus_sweep_values_polynomial = 38;
+        IREyeCameraFocusSweepLensValues ir_eye_camera_focus_sweep_lens_values =
+            39;
+        PerformIREyeCameraFocusSweep perform_ir_eye_camera_focus_sweep = 40;
+        IREyeCameraMirrorSweepValuesPolynomial
+            ir_eye_camera_mirror_sweep_values_polynomial = 41;
+        PerformIREyeCameraMirrorSweep perform_ir_eye_camera_mirror_sweep = 42;
+        ConeLEDsSequence cone_leds_sequence = 43;
+        ConeLEDsPattern cone_leds_pattern = 44;
+        WhiteLEDsBrightness white_leds_brightness = 45;
+    }
+}
+
+message McuToJetson
+{
+    oneof payload
+    {
+        Ack ack = 1;
+        PowerButton power_button = 2;
+        BatteryVoltage battery_voltage = 3;
+        BatteryCapacity battery_capacity = 4;
+        GNSSData gnss = 5;
+        Versions versions = 6;
+        Temperature temperature = 7;
+        FanStatus fan_status = 8;
+        IMUData imu_data = 9;
+        Voltage voltage = 10;
+        Log log = 11;
+        MotorRange motor_range = 12;
+        FatalError fatal_error = 13;
+        BatteryIsCharging battery_is_charging = 14;
+        BatteryDiagnosticCommon battery_diag_common = 15;
+        ToF_1D tof_1d = 16;
+        GNSSDataPartial gnss_partial = 17;
+        AmbientLight front_als = 18;
+        Hardware hardware = 19;
+        HardwareDiagnostic hardware_diag = 20;
+        BatteryResetReason battery_reset_reason = 21;
+        BatteryDiagnosticSafety battery_diag_safety = 22;
+        BatteryDiagnosticPermanentFail battery_diag_permanent_fail = 23;
+        BatteryInfoHwFw battery_info_hw_fw = 24;
+        BatteryInfoMaxValues battery_info_max_values = 25;
+        BatteryInfoSocAndStatistics battery_info_soc_and_statistics = 26;
+        ConePresent cone_present = 27;
+    }
+}
+
+message InfraredLEDs
+{
+    enum Wavelength {
+        WAVELENGTH_NONE = 0;
+        WAVELENGTH_740NM = 1;
+        WAVELENGTH_850NM = 2;
+        WAVELENGTH_940NM = 3;
+        WAVELENGTH_850NM_LEFT = 4;
+        WAVELENGTH_850NM_RIGHT = 5;
+        WAVELENGTH_940NM_LEFT = 6;
+        WAVELENGTH_940NM_RIGHT = 7;
+    }
+    Wavelength wavelength = 1;
+}
+
+// Shutdown the microcontroller after the delay [0...30] seconds
+message ShutdownWithDelay
+{
+    uint32 delay_s = 1; // [0...30] seconds
+}
+
+message StartTriggeringIrEyeCamera {}
+message StopTriggeringIrEyeCamera {}
+
+message StartTriggeringIrFaceCamera {}
+message StopTriggeringIrFaceCamera {}
+
+message StartTriggering2dTofCamera {}
+message StopTriggering2dTofCamera {}
+
+message RgbColor
+{
+    uint32 red = 1;   // [0...255]
+    uint32 green = 2; // [0...255]
+    uint32 blue = 3;  // [0...255]
+}
+
+// Control brightness and pattern of front-mounted UX/user LEDs.
+message UserLEDsPattern
+{
+    enum UserRgbLedPattern {
+        OFF = 0;
+        ALL_WHITE = 1;                // at brightness level
+        ALL_WHITE_NO_CENTER = 2;      // at brightness level
+        RANDOM_RAINBOW = 3;           // at brightness level
+        ALL_WHITE_ONLY_CENTER = 4;    // at brightness level
+        ALL_RED = 5;                  // at brightness level
+        ALL_GREEN = 6;                // at brightness level
+        ALL_BLUE = 7;                 // at brightness level
+        PULSING_WHITE = 8;            // uses a fixed brightness
+        RGB = 9;                      // use `custom_color` below
+        PULSING_RGB = 10;             // use `custom_color` below
+        PULSING_RGB_ONLY_CENTER = 11; // use `custom_color` below
+        BOOT_ANIMATION =
+            12; // custom, hardcoded boot animation, might be subject to change
+        RGB_ONLY_CENTER = 13; // use `custom_color` below
+    }
+
+    UserRgbLedPattern pattern = 2;
+    RgbColor custom_color = 3;
+    // ring = trigonometric circle, values in degrees
+    uint32 start_angle = 4; // [0..360]
+    int32 angle_length =
+        5; // +/-360º, positive: clockwise, negative: anticlockwise
+    float pulsing_scale =
+        6; // when using PULSING_RGB*, this defines how much the given RGB
+           // values will be scaled up at their maximum brightness. For example,
+           // a `pulsing_scale` of 0.2 means that the RGB values will go from
+           // their values set in `custom_color` at the dimmest part of the
+           // pulse, to their values at `custom_color` * 1.2 at the brightest
+           // part of the pulse.
+           // The goal here is to maintain the ratio between the RGB values in
+           // `custom_color`. To that end, if one provides a `pulsing_scale`
+           // value that would cause one of the R or G or B values to exceed
+           // 255, then the MCU will reject the message with an error ack.
+    uint32 pulsing_period_ms =
+        7; // When using a pulsing pattern, this is the period of the pulse.
+}
+
+message UserLEDsBrightness
+{
+    uint32 brightness = 1; // [0...255]
+}
+
+// Diamond Orb only
+message WhiteLEDsBrightness
+{
+    uint32 brightness = 1; // [0...1000]
+}
+
+// >>> LED Sequence data formats <<<
+//
+// ===== rgb_uncompressed =====
+//
+// Every group of 3 bytes encodes R-G-B values for an LED.
+// Each byte represents a color intensity from 0-255.
+// E.g. R1,G1,B1, R2,G2,B2,...
+// If the number of bytes sent is not a multiple of 3, then the message will be
+// rejected and will result in an error ack. Sending less values than there are
+// LEDs will result in the remaining LEDs being set to OFF. Sending more values
+// than there are LEDs is OK, the extra values will be ignored.
+//
+// ===== argb32_uncompressed =====
+// In this format another byte for the brightness (alpha channel) is added for
+// each LED. E.g. A1,R1,G1,B1, A2,R2,G2,B2,...
+
+message UserRingLEDsSequence
+{
+    oneof data_format
+    {
+        bytes rgb_uncompressed = 1;
+        bytes argb32_uncompressed = 2;
+    }
+}
+
+message UserCenterLEDsSequence
+{
+    oneof data_format
+    {
+        bytes rgb_uncompressed = 1;
+        bytes argb32_uncompressed = 2;
+    }
+}
+
+// Control pattern of distributor LEDs.
+message DistributorLEDsPattern
+{
+    enum DistributorRgbLedPattern {
+        OFF = 0;
+        ALL_WHITE = 1;   // at brightness level
+        ALL_RED = 2;     // at brightness level
+        ALL_GREEN = 3;   // at brightness level
+        ALL_BLUE = 4;    // at brightness level
+        RGB = 5;         // use `custom_color` below
+        PULSING_RGB = 6; // use `custom_color` below
+        BOOT_ANIMATION =
+            7; // custom, hardcoded boot animation, might be subject to change
+    };
+    DistributorRgbLedPattern pattern = 2;
+    RgbColor custom_color = 3;
+
+    // turn on specific LEDs, least significant bit is the left LED for the
+    // operator (right LED when facing the Orb). Max value is 0b11111 = 0x1F
+    // (5 LEDs)
+    uint32 leds_mask = 4;
+}
+
+// Control brightness of distributor LED
+message DistributorLEDsBrightness
+{
+    uint32 brightness = 1; // [0...255]
+}
+
+message DistributorLEDsSequence
+{
+    oneof data_format
+    {
+        bytes rgb_uncompressed = 1;
+        bytes argb32_uncompressed = 2;
+    }
+}
+
+message ConeLEDsSequence
+{
+    oneof data_format
+    {
+        bytes rgb_uncompressed = 1;
+        bytes argb32_uncompressed = 2;
+    }
+}
+
+message ConeLEDsPattern
+{
+    enum ConeRgbLedPattern {
+        OFF = 0;
+        RGB = 1; // use `custom_color` below
+    };
+    ConeRgbLedPattern pattern = 2;
+    RgbColor custom_color = 3;
+}
+
+// Maximum frame rate in frames per second [1...1000].
+//
+// For 850nm and 940nm LEDs:
+//   The idea here is that the camera frame rate is determined
+//   by the on_duration of the infrared LEDs. The MCU calculates the fastest
+//   frame rate permitted by a certain on_duration given by the eye safety
+//   equation: on_time_us * fps <= 100,000, where on_time_us <= 5000. In the
+//   case that one wants to use a lower frame rate than the maximum allowable
+//   at a particular on_duration, one may transmit this message to specify
+//   the maximum frame rate. If the maximum frame rate at current on_duration
+//   is greater than max_fps as specified by this message, then max_fps will
+//   be respected, else it will be ignored.
+//
+
+// For 740nm LEDs:
+//   There is no safety concern with these LED, so the only constraint comes
+//   from the max power allowed through the circuit. The contraint is a maximum
+//   duty cycle of 45%
+message CameraMaxFrameRate
+{
+    uint32 max_fps = 1; // [1..1000] fps
+}
+
+message LedOnTimeUs
+{
+    uint32 on_duration_us = 1; // [0...5000us]
+}
+
+message Fps
+{
+    uint32 fps = 1; // [0...60]
+}
+
+message LiquidLens
+{
+    int32 current = 1; // [-400...400] mA
+    bool enable = 2;
+}
+
+// The fields "horizontal_angle" and "vertical_angle" should not be used anymore
+// because their values don't have a reasonable physical meaning.
+//
+// In the following the name "mirror_normal" means the vector which is placed
+// perpendicular the the surface of the mirror.
+//
+// The fields "phi_angle_..." and "theta_angle_..." are used for describing the
+// orientation of the mirror_normal in standard spherical coordinates.
+//
+// In our spherical coordinate system if we place ourself into the position of
+// the Orb, the ...
+// ... z-axis is vertical and increases upwards
+// ... x-axis is horizontal and increases towards Orb's front
+// ... y-axis is horizontal and increases towards Orb's left.
+//
+// Examples
+// horizontal_angle = 45000
+// -> angle between mirror_normal and x-axis (phi) is 45°
+// horizontal_angle = 55000
+// -> angle between mirror_normal and x-axis (phi) is 40°
+// horizontal_angle = 35000
+// -> angle between mirror_normal and x-axis (phi) is 50°
+//
+// vertical_angle = 0
+// ->angle between mirror_normal and z - axis(theta) is 90°
+// vertical_angle = 10000
+// -> angle between mirror_normal and z-axis (theta) is 95°
+// vertical_angle = -20000
+// -> angle between mirror_normal and z-axis (theta) is 80°
+//
+// This means the relative movement of the mirror is scaled by 1/2 if
+// horizontal_angle and vertical_angle are used.
+//
+// phi_angle_millidegrees = 45000
+// -> angle between mirror_normal and x-axis is 45°
+// phi_angle_millidegrees = 55000
+// -> angle between mirror_normal and x-axis is 55°
+// phi_angle_millidegrees = 35000
+// -> angle between mirror_normal and x-axis is 35°
+//
+// theta_angle_millidegrees = 90000
+// -> angle between mirror_normal and z-axis (theta) is 90°
+// theta_angle_millidegrees = 100000
+// -> angle between mirror_normal and z-axis (theta) is 100°
+// theta_angle_millidegrees = 70000
+// -> angle between mirror_normal and z-axis (theta) is 70°
+enum MirrorAngleType {
+    HORIZONTAL_VERTICAL = 0;
+    PHI_THETA = 1;
+}
+
+message MirrorAngle
+{
+    uint32 horizontal_angle = 1; // in thousandths of a degree
+    int32 vertical_angle = 2;    // in thousandths of a degree
+    uint32 phi_angle_millidegrees = 3;
+    uint32 theta_angle_millidegrees = 4;
+    MirrorAngleType angle_type = 5;
+}
+
+// Apply angle relative to the current mirror position
+message MirrorAngleRelative
+{
+    int32 horizontal_angle = 1; // in thousandths of a degree
+    int32 vertical_angle = 2;   // in thousandths of a degree
+    int32 phi_angle_millidegrees = 3;
+    int32 theta_angle_millidegrees = 4;
+    MirrorAngleType angle_type = 5;
+}
+
+// Specify how often we report temperature measurements to the Jetson
+message TemperatureSamplePeriod { uint32 sample_period_ms = 1; }
+
+// Voltages will be continuously measured, with the max and min recorded until
+// requested. After requested voltages are sent, the min and max are reset.
+message Voltage
+{
+    enum VoltageSource {
+        MAIN_MCU_INTERNAL = 0;
+        SECURITY_MCU_INTERNAL = 1;
+        SUPPLY_12V = 2;
+        SUPPLY_5V = 3;
+        SUPPLY_3V8 = 4;
+        SUPPLY_3V3 = 5;
+        SUPPLY_1V8 = 6;
+        VBAT = 7;
+        PVCC = 8;
+        CAPS_12V = 9;
+        VBAT_SW = 10;
+        SUPPLY_3V3_SSD = 11;
+        SUPPLY_3V3_WIFI = 12;
+        SUPPLY_3V3_LTE = 13;
+        SUPPLY_3V6 = 14;
+        SUPPLY_1V2 = 15;
+        SUPPLY_2V8 = 16;
+        SUPPLY_1V8_SEC = 17;
+        SUPPLY_4V7_SEC = 18;
+        SUPPLY_17V_CAPS = 19;
+        SUPER_CAP_0 = 20;
+        SUPER_CAP_1 = 21;
+        SUPER_CAP_2 = 22;
+        SUPER_CAP_3 = 23;
+        SUPER_CAP_4 = 24;
+        SUPER_CAP_5 = 25;
+        SUPER_CAP_6 = 26;
+        SUPER_CAP_7 = 27;
+    }
+
+    VoltageSource source = 1;
+    uint32 voltage_max_mv = 2;
+    uint32 voltage_min_mv = 3;
+    uint32 voltage_current_mv = 4;
+}
+
+// Request voltages to be sent.
+// Specifying a period greater than 0 commands the MCU to send voltage samples
+// at that rate. Specifying a period of 0 means to send the voltages once right
+// now and cancel any previously set period.
+// The maximum value which is accepted by the Main MCU is 60000 (60 s).
+// If a larger value is requested then the value is clamped to 60000 by the MCU.
+message VoltageRequest { uint32 transmit_period_ms = 1; }
+
+// Full range of a motor after auto-homing
+// Microsteps is the raw value acquired during auto-homing
+message MotorRange
+{
+    enum Motor {
+        VERTICAL_THETA = 0;
+        HORIZONTAL_PHI = 1;
+    }
+    Motor which_motor = 1;
+    uint32 range_microsteps = 2;
+    uint32 range_millidegrees = 3;
+}
+
+message FanStatus
+{
+    enum FanID {
+        MAIN = 0;
+        AUX = 1;
+    }
+
+    uint32 measured_speed_rpm = 1; // Actual speed in rotations per minute
+    FanID fan_id = 2;
+}
+
+message FanSpeed
+{
+    oneof payload
+    {
+        uint32 percentage = 1; // Old interface
+        uint32 value = 2; // This is a 16-bit value where 65535 is max speed and
+                          // 0 is off. This value maps onto the smallest unit of
+                          // duty cycle possible by the timer peripheral, thus
+                          // granting maximum control of the fan speed.
+    }
+}
+
+message PerformMirrorHoming
+{
+    enum Mode {
+        STALL_DETECTION = 0;  // default with stall detection
+        ONE_BLOCKING_END = 1; // perform `range` number of steps toward one
+                              // direction and `range/2` back to go to center
+    }
+    enum Angle {
+        BOTH = 0; // both angles unless specified
+        VERTICAL_THETA = 1;
+        HORIZONTAL_PHI = 2;
+    }
+    Mode homing_mode = 1;
+    Angle angle = 2;
+}
+
+message PowerButton { bool pressed = 1; }
+
+// Battery voltages in mV
+message BatteryVoltage
+{
+    int32 battery_cell1_mv = 1;
+    int32 battery_cell2_mv = 2;
+    int32 battery_cell3_mv = 3;
+    int32 battery_cell4_mv = 4;
+}
+
+message BatteryDiagnosticCommon
+{
+    // see battery specs
+    uint32 flags = 1;
+    uint32 bq769_control_status = 2;
+    uint32 battery_status = 3;
+    uint32 fet_status = 4;
+    uint32 balancer_state = 5;
+    sint32 current_ma = 6;
+}
+
+message BatteryDiagnosticSafety
+{
+    uint32 safety_alert_a = 1;
+    uint32 safety_status_a = 2;
+    uint32 safety_alert_b = 3;
+    uint32 safety_status_b = 4;
+    uint32 safety_alert_c = 5;
+    uint32 safety_status_c = 6;
+}
+
+message BatteryDiagnosticPermanentFail
+{
+    uint32 permanent_fail_alert_a = 1;
+    uint32 permanent_fail_status_a = 2;
+    uint32 permanent_fail_alert_b = 3;
+    uint32 permanent_fail_status_b = 4;
+    uint32 permanent_fail_alert_c = 5;
+    uint32 permanent_fail_status_c = 6;
+    uint32 permanent_fail_alert_d = 7;
+    uint32 permanent_fail_status_d = 8;
+}
+
+// Battery Capacity [in %]
+message BatteryCapacity { uint32 percentage = 1; }
+
+// Is battery charging?
+message BatteryIsCharging { bool battery_is_charging = 1; }
+
+// Accelerometer and gyroscope data. Units are milli-degree
+// per second (gyroscope) and milli-g, i.e. 1/1000 of earth
+// acceleration (accelerometer)
+message IMUData
+{
+    sfixed32 gyro_pitch = 1;
+    sfixed32 gyro_roll = 2;
+    sfixed32 gyro_yaw = 3;
+    sfixed32 accel_x = 4;
+    sfixed32 accel_y = 5;
+    sfixed32 accel_z = 6;
+}
+
+//  A plain text NMEA message as received from the GPS module, e.g.:
+//  "$GPRMC,092750.000,A,5321.6802,N,00630.3372,W,0.02,31.66,280511,,,A*43\r\n"
+//
+//  The raw NMEA messages may be used as-is and
+//  forwarded to other NMEA-aware programs or libraries.
+message GNSSData { string nmea = 1; }
+
+// For use until ISO-TP is up and running.
+//
+// Two of these message compose a complete NMEA message, even
+// if the NMEA would fit into just one of these messages.
+// An even `counter` value denotes the first part of a NMEA message.
+// An odd `counter` value denotes the second part of a NMEA message, where the
+// first part was sent in a message with a counter value of `counter` - 1.
+// Example: you receive 2 messages with counter values of 100 and 101.
+// 100 contains the start of some NMEA message and 101 contains the remainder of
+// the NMEA message sent in 100 that could not fit into 100, or else it contains
+// an empty string.
+message GNSSDataPartial
+{
+    uint32 counter = 1;
+    string nmea_part = 2;
+}
+
+message ToF_1D { uint32 distance_mm = 1; }
+
+// Ambient light sensed from ALS on the front unit
+// ⚠️ Note: sensor is hidden behind the Orb face and doesn't provide
+//    accurate lux values. Still, these values can be used to
+//    approximate ambient light
+message AmbientLight
+{
+    enum Flags {
+        ALS_OK = 0;
+        ALS_ERR_RANGE = 1; // likely too much light in the sensor, consider the
+                           // value as ~500
+    };
+    uint32 ambient_light_lux = 1;
+    Flags flag = 2;
+}
+
+// Diagnostic information about hardware components
+// - Source: which sensor/actuator is being reported
+// - Status: Source status
+message HardwareDiagnostic
+{
+    enum Source {
+        // main board
+        OPTICS_MIRRORS = 0;
+        OPTICS_IR_LEDS = 1;
+        OPTICS_CAMERAS = 2;
+        OPTICS_LIQUID_LENS = 3;
+        OPTICS_1D_TOF = 4;
+        OPTICS_EYE_SAFETY_CIRCUIT_SELF_TEST = 5;
+        GNSS = 6;
+        TEMPERATURE_SENSORS_FRONT_UNIT = 7;
+        TEMPERATURE_SENSORS_MAIN_BOARD = 8;
+        TEMPERATURE_SENSORS_LIQUID_LENS = 9;
+        UI_ALS = 10;
+        UI_SOUND = 11;
+        MAIN_BOARD_SENTINEL = 12; // subject to change
+
+        // security board
+        SE050 = 50;
+        SECURITY_BOARD_SENTINEL = 51; // subject to change
+
+        UNKNOWN = 100;
+    }
+
+    enum Status {
+        STATUS_OK = 0;
+        STATUS_INITIALIZATION_ERROR = 1;
+        STATUS_SAFETY_ISSUE = 2;
+        STATUS_UNKNOWN = 3;
+    }
+
+    Source source = 1;
+    Status status = 2;
+}
+
+//
+// *** NOTE: IR Eye Focus Sweep ***
+//
+// There are several ways to provide focus values for each frame. Any of these
+// methods may be used at any time (though they may NOT be sent while a focus
+// sweep is in progress).
+//
+// 1. IREyeCameraFocusSweepLensValues: One sends every focus values explicitly
+// 2. IREyeCameraFocusSweepValuesPolynomial: One sends a more succinct
+// representation via polynomial coefficients
+
+message IREyeCameraFocusSweepLensValues
+{
+    bytes focus_values = 1; // Maximum of 600 bytes, encoding: array of 16-bit
+                            // signed current values (mA, same as for liquid
+                            // lens), 2's complement and little endian
+}
+
+// This message provides coefficients for evaluating the formula: focus(n) = a +
+// bn + cn^2 + dn^3 + en^4 + fn^5 where n = frame number from 0 ...
+// number_of_frames
+message IREyeCameraFocusSweepValuesPolynomial
+{
+    float coef_a = 1;
+    float coef_b = 2;
+    float coef_c = 3;
+    float coef_d = 4;
+    float coef_e = 5;
+    float coef_f = 6;
+
+    uint32 number_of_frames = 7;
+}
+
+// The FPS, IR wavelength(s), and focus sweep values should be configured before
+// using this. The IR eye camera should be disabled. Sending any message that
+// changes the FPS, enabled IR wavelengths, focus sweep values, or liquid lens
+// focus while the sweep is in progress will be ignored and responded to with an
+// error Ack. The number of frames taken is equal to the number of focus values
+// sent. The duration of the focus sweep is (FPS / number_of_focus_values).
+message PerformIREyeCameraFocusSweep {}
+
+// A mirror sweep is a sequence of images between which the MCU moves the
+// mirrors to a precise, predefined position. The algorithm for determining the
+// next mirror position uses polar coordinates and looks like so:
+//
+// ```ignore
+// def do_mirror_sweep(radius_func, angle_func, num_frames,
+//     current_mirror_position):
+//   frame_no = 0
+//   init_x, init_y = current_mirror_position
+//
+// def after_camera_exposure_end():
+//   if frame_no == num_frames:
+//     finish_mirror_sweep()
+//   else:
+//     r = radius_func(frame_no)
+//     t = angle_func(frame_no)
+//
+//     # These deltas must always be interpreted relative to whatever the x
+//     # and y coordinates of the mirror are when we started the sweep.
+//     delta_x = r * cos(t)
+//     delta_y = r * sin(t)
+//     x_new = initial_x + x_delta
+//     y_new = initial_y + y_delta
+//     gimbal_move(x_new, y_new)
+//     frame_no += 1
+//
+// register_camera_exposure_end_cb(after_camera_exposure_end)
+// start_mirror_sweep()
+// ```
+//
+// We compute each radius r and angle t using two 2nd-order polynomials of the
+// form
+//
+// f(x) = c * x^2 + b * x + a
+//
+// (passed as `angle_func` and `radius_func` above)
+// where the input is the frame number, using the coefficients provided in this
+// message.
+message IREyeCameraMirrorSweepValuesPolynomial
+{
+    float radius_coef_a = 1;
+    float radius_coef_b = 2;
+    float radius_coef_c = 3;
+    float angle_coef_a = 4;
+    float angle_coef_b = 5;
+    float angle_coef_c = 6;
+
+    uint32 number_of_frames = 7;
+}
+
+// The FPS, IR wavelength(s), and mirror sweep values should be configured
+// before using this. The IR eye camera should be disabled. Sending any message
+// that changes the FPS, enabled IR wavelengths, mirror sweep values, or liquid
+// lens focus while the sweep is in progress will be ignored and responded to
+// with an error Ack. The duration of the focus sweep is (FPS /
+// number_of_frames).
+message PerformIREyeCameraMirrorSweep {}
+
+// Information which is requested from the battery once if
+// it is plugged into the Orb.
+message BatteryInfoHwFw
+{
+    bytes mcu_id = 1;
+    enum HardwareVersion {
+        BATTERY_HW_VERSION_6_0 = 0; // Ruby Battery version
+        BATTERY_HW_VERSION_6_1o2 = 1;
+        BATTERY_HW_VERSION_6_3 = 2;
+        BATTERY_HW_VERSION_6_4 = 3;
+        BATTERY_HW_VERSION_6_5 = 4;
+        BATTERY_HW_VERSION_IDU139GA_R00 = 20; // Amber Battery version
+        BATTERY_HW_VERSION_IDU139GA_R01 = 21;
+        BATTERY_HW_VERSION_IDU139GA_R02 = 22;
+        BATTERY_HW_VERSION_IDU139GA_R03 = 23;
+        BATTERY_HW_VERSION_UNDETECTED = 255;
+    }
+    HardwareVersion hw_version = 2;
+    FirmwareVersion fw_version = 3;
+}
+
+message BatteryInfoMaxValues
+{
+    uint32 maximum_capacity_mah = 1;
+    uint32 maximum_cell_temp_decidegrees = 2;
+    uint32 maximum_pcb_temp_decidegrees = 3;
+    uint32 maximum_charge_current_ma = 4;
+    uint32 maximum_discharge_current_ma = 5;
+}
+
+message BatteryInfoSocAndStatistics
+{
+    enum SocCalibration {
+        STATE_SOC_CAL_RESET = 0;
+        STATE_SOC_CAL_CHG_CNT_CALIBRATE = 1;
+        STATE_SOC_CAL_WAIT_CALIBRATE = 2;
+        STATE_SOC_CAL_MAX_CALIBRATED = 3;
+        STATE_SOC_CAL_UNKNOWN = 0xFF;
+    }
+    enum SocState {
+        STATE_SOC_RESET = 0;
+        STATE_SOC_FIRST_GUESS = 1;
+        STATE_SOC_BATTERY_RELAX = 2;
+        STATE_SOC_CHECK_TEMP = 3;
+        STATE_SOC_SECOND_GUESS = 4;
+        STATE_SOC_CHG_CNT_CALIBRATED = 5;
+        STATE_SOC_FULLY_CALIBRATED = 6;
+        STATE_SOC_UNKNOWN = 0xFF;
+    }
+    SocCalibration soc_calibration = 1;
+    SocState soc_state = 2;
+    uint32 number_of_button_presses = 3;
+    uint32 number_of_insertions = 4;
+    uint32 number_of_charges = 5;
+    uint32 number_of_written_flash_variables = 6;
+}
+
+// Sent by the battery if its MCU was reset
+message BatteryResetReason
+{
+    enum ResetReason {
+        RESET_REASON_UNINITIALIZED = 0;
+        RESET_REASON_UNKNOWN = 1;
+        RESET_REASON_CC_DETECT = 2;
+        RESET_REASON_HARDFAULT = 3;
+        RESET_REASON_EEPROM_ERROR = 4;
+        RESET_REASON_MEMFAULT = 5;
+        RESET_REASON_BUSFAULT = 6;
+        RESET_REASON_USAGEFAULT = 7;
+        RESET_REASON_INIT_ERROR = 8;
+        RESET_REASON_USBPD_DEINIT = 9;
+        RESET_REASON_HIBERNATE = 10;
+        RESET_REASON_TEST_MODE = 11;
+    }
+    ResetReason reset_reason = 1;
+}
+
+message ConePresent { bool cone_present = 1; }

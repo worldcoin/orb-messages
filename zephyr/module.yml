@@ -1,0 +1,3 @@
+name: orb-protobuf-definitions
+build:
+  cmake: zephyr

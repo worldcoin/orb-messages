@@ -1,0 +1,13 @@
+syntax = "proto3";
+package private;
+
+// incomplete, private definitions
+// to be overwritten by actual definitions
+
+message SEResponse {}
+
+message Tamper {}
+
+message TamperStates {}
+
+message TamperRaw {}
