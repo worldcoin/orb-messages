@@ -8,7 +8,11 @@ edition = "2021"
 rust-version = "1.74"
 license = "MIT OR (Apache-2.0 WITH LLVM-exception)"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+default = []
+# Enables the private code. Requires providing the path to the private .proto
+# files via the `ORB_MCU_MESSAGING_PRIVATE_PATH` env var at build time.
+private = []
 
 [dependencies]
 prost = "0.12.3"
