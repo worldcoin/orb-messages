@@ -1,7 +1,5 @@
 use std::path::{Path, PathBuf};
 
-const PRIVATE_PATH_ENV: &str = "ORB_MCU_MESSAGING_PRIVATE_PATH";
-
 fn main() {
     // NOTE: We cannot use `CARGO_MANIFEST_DIR`, because protoc doesn't work well with
     // absolute paths.
@@ -10,7 +8,6 @@ fn main() {
     // rebuild if any of this changes
     println!("cargo:rerun-if-env-changed=PROTOC");
     println!("cargo:rerun-if-env-changed=PROTOC_INCLUDE");
-    println!("cargo:rerun-if-env-changed={PRIVATE_PATH_ENV}");
     println!("cargo:rerun-if-changed={}", messages_dir.display());
 
     let sec_priv_dir = get_sec_priv_dir(messages_dir);
@@ -35,22 +32,24 @@ fn main() {
 
         Ok(())
     }() {
-        panic!("error while running protoc. Hint: Did you specify {PRIVATE_PATH_ENV} correctly?\n{err}");
+        panic!("error while running protoc: {err}");
     }
 }
 
 fn get_sec_priv_dir(messages_dir: &Path) -> PathBuf {
     // Choose either `private` or `private_stub`
     let sec_priv_dir = if cfg!(feature = "private") {
-        let Ok(priv_dir) = std::env::var(PRIVATE_PATH_ENV) else {
-            panic!(
-                "The `private` feature of this crate requires you to provide the \
-                {PRIVATE_PATH_ENV} env var to the private protobufs."
-            );
-        };
-        println!("cargo:rerun-if-changed={priv_dir}");
-        println!("cargo:warning=using private protobufs from `{priv_dir}`");
-        PathBuf::from(priv_dir)
+        let priv_dir = std::env::current_dir()
+            .unwrap()
+            .parent()
+            .expect("should have parent dir")
+            .join("private");
+        println!("cargo:rerun-if-changed={}", priv_dir.display());
+        println!(
+            "cargo:warning=using private protobufs from `{}`",
+            priv_dir.display()
+        );
+        priv_dir
     } else {
         println!(
             "cargo:warning=`private` cargo feature not required, using stubs for \
@@ -65,7 +64,7 @@ fn get_sec_priv_dir(messages_dir: &Path) -> PathBuf {
     );
     assert!(
         sec_priv_dir.exists() && sec_priv_dir.is_dir(),
-        "expected {PRIVATE_PATH_ENV}={sec_priv_dir:?} dir to exist."
+        "expected private dir ({sec_priv_dir:?}) dir to exist."
     );
 
     sec_priv_dir
