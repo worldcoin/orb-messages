@@ -20,17 +20,17 @@ message McuMessage
     Version version = 1;
     oneof message
     {
-        JetsonToMcu j_message = 2;
-        McuToJetson m_message = 3;
+        ToMcu j_message = 2;
+        ToJetson m_message = 3;
     }
 }
 
-message JetsonToMcu
+message ToMcu
 {
     reserved 15; // was 740nm brightness
 
     uint32 ack_number = 1; // monotonically incrementing number. We will
-                           // acknowledge all messages
+    // acknowledge all messages
 
     oneof payload
     {
@@ -82,7 +82,7 @@ message JetsonToMcu
     }
 }
 
-message McuToJetson
+message ToJetson
 {
     oneof payload
     {
@@ -182,15 +182,15 @@ message UserLEDsPattern
         5; // +/-360º, positive: clockwise, negative: anticlockwise
     float pulsing_scale =
         6; // when using PULSING_RGB*, this defines how much the given RGB
-           // values will be scaled up at their maximum brightness. For example,
-           // a `pulsing_scale` of 0.2 means that the RGB values will go from
-           // their values set in `custom_color` at the dimmest part of the
-           // pulse, to their values at `custom_color` * 1.2 at the brightest
-           // part of the pulse.
-           // The goal here is to maintain the ratio between the RGB values in
-           // `custom_color`. To that end, if one provides a `pulsing_scale`
-           // value that would cause one of the R or G or B values to exceed
-           // 255, then the MCU will reject the message with an error ack.
+    // values will be scaled up at their maximum brightness. For example,
+    // a `pulsing_scale` of 0.2 means that the RGB values will go from
+    // their values set in `custom_color` at the dimmest part of the
+    // pulse, to their values at `custom_color` * 1.2 at the brightest
+    // part of the pulse.
+    // The goal here is to maintain the ratio between the RGB values in
+    // `custom_color`. To that end, if one provides a `pulsing_scale`
+    // value that would cause one of the R or G or B values to exceed
+    // 255, then the MCU will reject the message with an error ack.
     uint32 pulsing_period_ms =
         7; // When using a pulsing pattern, this is the period of the pulse.
 }
@@ -488,9 +488,9 @@ message FanSpeed
     {
         uint32 percentage = 1; // Old interface
         uint32 value = 2; // This is a 16-bit value where 65535 is max speed and
-                          // 0 is off. This value maps onto the smallest unit of
-                          // duty cycle possible by the timer peripheral, thus
-                          // granting maximum control of the fan speed.
+        // 0 is off. This value maps onto the smallest unit of
+        // duty cycle possible by the timer peripheral, thus
+        // granting maximum control of the fan speed.
     }
 }
 
@@ -499,7 +499,7 @@ message PerformMirrorHoming
     enum Mode {
         STALL_DETECTION = 0;  // default with stall detection
         ONE_BLOCKING_END = 1; // perform `range` number of steps toward one
-                              // direction and `range/2` back to go to center
+        // direction and `range/2` back to go to center
     }
     enum Angle {
         BOTH = 0; // both angles unless specified
@@ -608,7 +608,7 @@ message AmbientLight
     enum Flags {
         ALS_OK = 0;
         ALS_ERR_RANGE = 1; // likely too much light in the sensor, consider the
-                           // value as ~500
+        // value as ~500
     };
     uint32 ambient_light_lux = 1;
     Flags flag = 2;
@@ -667,8 +667,8 @@ message HardwareDiagnostic
 message IREyeCameraFocusSweepLensValues
 {
     bytes focus_values = 1; // Maximum of 600 bytes, encoding: array of 16-bit
-                            // signed current values (mA, same as for liquid
-                            // lens), 2's complement and little endian
+    // signed current values (mA, same as for liquid
+    // lens), 2's complement and little endian
 }
 
 // This message provides coefficients for evaluating the formula: focus(n) = a +

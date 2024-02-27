@@ -12,15 +12,15 @@ message McuMessage
     Version version = 1;
     oneof message
     {
-        JetsonToSec jetson_to_sec_message = 4;
-        SecToJetson sec_to_jetson_message = 5;
+        ToMcu jetson_to_sec_message = 4;
+        ToJetson sec_to_jetson_message = 5;
     }
 }
 
-message JetsonToSec
+message ToMcu
 {
     uint32 ack_number = 1; // monotonically incrementing number. We will
-                           // acknowledge all messages
+    // acknowledge all messages
     oneof payload
     {
         RebootWithDelay reboot = 3;
@@ -34,7 +34,7 @@ message JetsonToSec
     }
 }
 
-message SecToJetson
+message ToJetson
 {
     reserved 6; // used in previous versions
 
