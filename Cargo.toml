@@ -5,10 +5,10 @@ authors = [
     "Cyril Fougeray <cyril.fougeray@toolsforhumanity.com>",
 ]
 edition = "2021"
-rust-version = "1.74"
 license = "MIT OR (Apache-2.0 WITH LLVM-exception)"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+publish = false
+repository = "https://github.com/worldcoin/open-orb-mcu-messaging"
+rust-version = "1.74" # See rust-toolchain.toml
 
 [dependencies]
 prost = "0.12.3"
