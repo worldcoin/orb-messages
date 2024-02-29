@@ -12,6 +12,7 @@ license = "MIT OR (Apache-2.0 WITH LLVM-exception)"
 
 [dependencies]
 prost = "0.12.3"
+thiserror = "1.0.57"
 
 [build-dependencies]
 prost-build = "0.12.3"
