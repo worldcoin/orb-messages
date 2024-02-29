@@ -94,15 +94,16 @@ impl From<mcu_main::ack::ErrorCode> for CommonAckError {
 /// Converts a `mcu_sec::ack::ErrorCode` to a `CommonAckError`.
 impl From<mcu_sec::ack::ErrorCode> for CommonAckError {
     fn from(value: mcu_sec::ack::ErrorCode) -> Self {
+        use mcu_sec::ack::ErrorCode as E;
         match value {
-            mcu_sec::ack::ErrorCode::Success => CommonAckError::Success,
-            mcu_sec::ack::ErrorCode::Version => CommonAckError::Version,
-            mcu_sec::ack::ErrorCode::Range => CommonAckError::Range,
-            mcu_sec::ack::ErrorCode::InProgress => CommonAckError::InProgress,
-            mcu_sec::ack::ErrorCode::Fail => CommonAckError::Fail,
-            mcu_sec::ack::ErrorCode::OverTemperature => CommonAckError::OverTemperature,
-            mcu_sec::ack::ErrorCode::OperationNotSupported => CommonAckError::OperationNotSupported,
-            mcu_sec::ack::ErrorCode::InvalidState => CommonAckError::InvalidState,
+            E::Success => Self::Success,
+            E::Version => Self::Version,
+            E::Range => Self::Range,
+            E::InProgress => Self::InProgress,
+            E::Fail => Self::Fail,
+            E::OverTemperature => Self::OverTemperature,
+            E::OperationNotSupported => Self::OperationNotSupported,
+            E::InvalidState => Self::InvalidState,
         }
     }
 }
