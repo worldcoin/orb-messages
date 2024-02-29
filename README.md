@@ -18,16 +18,14 @@ constraints in any other languages.
 
 We don't want to publicly share the definitions of messages that are used to
 communicate tamper events, because it could reveal information about what the
-MCU is detecting. Instead, for these sensitive messages we provide publicly
-available stubs, where the message contents are empty.
+microcontroller is detecting. Instead, for these sensitive messages we provide 
+publicly available stubs, where the message contents are empty.
 
 The directory structure looks like this:
 
 ```shell
 orb-mcu-messaging
-├── nanopb           # (private) nanopb C library, allows testing from CI
 ├── messages         # protobuf definitions
-│   ├── private      # (private) security sensitive messages
 │   └── private_stub # stubs for the closed source definitions
 ├── src              # Rust library
 └── zephyr           # builds the library for Zephyr
@@ -79,12 +77,6 @@ We use pre-commit to run checks on the proto files:
 
 ```shell
 pre-commit install -c .pre-commit-config.yaml
-```
-
-To ensure code will pass in CI:
-
-```shell
-make
 ```
 
 ## 🪪 License
