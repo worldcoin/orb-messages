@@ -77,17 +77,16 @@ impl From<i32> for CommonAckError {
 /// Converts a `mcu_main::ack::ErrorCode` to a `CommonAckError`.
 impl From<mcu_main::ack::ErrorCode> for CommonAckError {
     fn from(value: mcu_main::ack::ErrorCode) -> Self {
+        use mcu_main::ack::ErrorCode as E;
         match value {
-            mcu_main::ack::ErrorCode::Success => CommonAckError::Success,
-            mcu_main::ack::ErrorCode::Version => CommonAckError::Version,
-            mcu_main::ack::ErrorCode::Range => CommonAckError::Range,
-            mcu_main::ack::ErrorCode::InProgress => CommonAckError::InProgress,
-            mcu_main::ack::ErrorCode::Fail => CommonAckError::Fail,
-            mcu_main::ack::ErrorCode::OverTemperature => CommonAckError::OverTemperature,
-            mcu_main::ack::ErrorCode::OperationNotSupported => {
-                CommonAckError::OperationNotSupported
-            }
-            mcu_main::ack::ErrorCode::InvalidState => CommonAckError::InvalidState,
+            E::Success => Self::Success,
+            E::Version => Self::Version,
+            E::Range => Self::Range,
+            E::InProgress => Self::InProgress,
+            E::Fail => Self::Fail,
+            E::OverTemperature => Self::OverTemperature,
+            E::OperationNotSupported => Self::OperationNotSupported,
+            E::InvalidState => Self::InvalidState,
         }
     }
 }
