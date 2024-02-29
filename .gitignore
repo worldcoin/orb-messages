@@ -1,12 +1,10 @@
-*.egg-info/
 *.DS_Store
-
-target/
-__pycache__/
-nanopb_out/
+*.egg-info/
+.direnv/
 .docker_image_built
-
-# generated
-out.bin
-
+.envrc
+__pycache__/
 nanopb
+nanopb_out/
+out.bin
+target/
