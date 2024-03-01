@@ -13,9 +13,13 @@ impl core::fmt::Display for mcu_main::ack::ErrorCode {
             Self::Range => "argument is out of range",
             Self::InProgress => "operation is already in progress",
             Self::Fail => "operation failed",
-            Self::OverTemperature => "operation could not be completed because of overheating",
+            Self::OverTemperature => {
+                "operation could not be completed because of overheating"
+            }
             Self::OperationNotSupported => "operation is not supported",
-            Self::InvalidState => "message can not be processed because of the current state",
+            Self::InvalidState => {
+                "message can not be processed because of the current state"
+            }
         })
     }
 }
@@ -28,9 +32,13 @@ impl core::fmt::Display for mcu_sec::ack::ErrorCode {
             Self::Range => "argument is out of range",
             Self::InProgress => "operation is already in progress",
             Self::Fail => "operation failed",
-            Self::OverTemperature => "operation could not be completed because of overheating",
+            Self::OverTemperature => {
+                "operation could not be completed because of overheating"
+            }
             Self::OperationNotSupported => "operation is not supported",
-            Self::InvalidState => "message can not be processed because of the current state",
+            Self::InvalidState => {
+                "message can not be processed because of the current state"
+            }
         })
     }
 }
