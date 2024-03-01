@@ -27,6 +27,7 @@
           buildInputs = (with p.native; [
             protobuf
             nixpkgs-fmt
+            pre-commit
 
             # This is missing on mac m1 nix, for some reason.
             # see https://stackoverflow.com/a/69732679
