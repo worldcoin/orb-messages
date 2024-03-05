@@ -3,18 +3,24 @@ use std::path::Path;
 fn main() {
     // NOTE: We cannot use `CARGO_MANIFEST_DIR`, because protoc doesn't work well with
     // absolute paths.
-    let messages_dir = Path::new("messages");
-    let priv_dir = Path::new("messages/private_stub");
+    let is_public = env!("CARGO_PKG_NAME") == "orb-mcu-messaging";
+    let (messages_dir, priv_dir) = if is_public {
+        println!("cargo:warning=Be aware that private definitions are stubbed out when building the public crate.");
 
-    let main_proto = messages_dir.join("mcu_messaging_main.proto");
-    let sec_proto = messages_dir.join("mcu_messaging_sec.proto");
-    let sec_priv_proto = priv_dir.join("mcu_messaging_sec_priv.proto");
+        (Path::new("messages"), Path::new("messages/private_stub"))
+    } else {
+        (Path::new("public/messages"), Path::new("private"))
+    };
 
     // rebuild if any of this changes
     println!("cargo:rerun-if-env-changed=PROTOC");
     println!("cargo:rerun-if-env-changed=PROTOC_INCLUDE");
     println!("cargo:rerun-if-changed={}", messages_dir.display());
-    println!("cargo:warning=Be aware that private definitions are missing when building the public crate.");
+    println!("cargo:rerun-if-changed={}", priv_dir.display());
+
+    let main_proto = messages_dir.join("mcu_messaging_main.proto");
+    let sec_proto = messages_dir.join("mcu_messaging_sec.proto");
+    let sec_priv_proto = priv_dir.join("mcu_messaging_sec_priv.proto");
 
     // Codegen with protoc.
     if let Err(err) = || -> std::io::Result<()> {
