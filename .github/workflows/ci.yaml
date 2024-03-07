@@ -1,0 +1,116 @@
+name: Main CI
+on:
+  pull_request:
+
+  push:
+    branches:
+      - main
+    tags:
+      - '**'
+
+jobs:
+  fmt:
+    name: Format
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: cachix/cachix-action@v12
+        continue-on-error: true
+        with:
+          name: worldcoin
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Check Rust formatting
+        run: cargo fmt --check --all
+      - name: Check Nix formatting
+        run: |
+          nix develop -c \
+            nixpkgs-fmt --check flake.nix
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: cachix/cachix-action@v12
+        continue-on-error: true
+        with:
+          name: worldcoin
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Cache cargo dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Clippy lints
+        run: |
+          nix develop -c \
+            cargo clippy --all --all-features --all-targets --no-deps -- -D warnings
+
+  doc:
+    name: Doc
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: cachix/cachix-action@v12
+        continue-on-error: true
+        with:
+          name: worldcoin
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Cache cargo dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Cargo Doc
+        run: |
+          nix develop -c \
+            cargo doc --all --all-features --no-deps --document-private-items
+
+  test:
+    name: Test
+    strategy:
+      matrix:
+        platform: [ubuntu-22.04]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: cachix/cachix-action@v12
+        continue-on-error: true
+        with:
+          name: worldcoin
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Cache cargo dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Configure cargo to exclude platform-specific crates
+        if: ${{ matrix.platform == 'macos-13' }}
+        run: |
+          MAC_EXCLUDE=(
+          )
+          echo MAC_EXCLUDE="${MAC_EXCLUDE[*]}" >>${GITHUB_ENV}
+          cat ${GITHUB_ENV}
+      - name: Cargo Test
+        run: |
+          uname -a
+          nix develop -c env
+          nix develop -c \
+            cargo test --all --all-features --all-targets $MAC_EXCLUDE
+
+  cargo-deny:
+    name: Check licensing
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: cachix/cachix-action@v12
+        continue-on-error: true
+        with:
+          name: worldcoin
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Check licenses and security advisories
+        run: |
+          nix develop -c \
+            cargo deny check
+
