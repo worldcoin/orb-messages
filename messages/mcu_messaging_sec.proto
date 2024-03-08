@@ -50,6 +50,7 @@ message SecToJetson
         private.TamperRaw tamper_raw = 9;
         private.TamperStates tamper_states = 10;
         Temperature temperature = 11;
+        MemfaultEvent memfault_event = 12;
     }
 }
 

@@ -113,6 +113,7 @@ message McuToJetson
         BatteryInfoMaxValues battery_info_max_values = 25;
         BatteryInfoSocAndStatistics battery_info_soc_and_statistics = 26;
         ConePresent cone_present = 27;
+        MemfaultEvent memfault_event = 28;
     }
 }
 
