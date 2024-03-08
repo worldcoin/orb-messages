@@ -216,3 +216,10 @@ message Versions
     FirmwareVersion primary_app = 1;
     FirmwareVersion secondary_app = 2;
 }
+
+message MemfaultEvent
+{
+    // chunk must be sent to the Memfault backend in order
+    uint32 counter = 1;
+    bytes chunk = 2;
+}
