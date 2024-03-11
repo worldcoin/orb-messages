@@ -615,45 +615,6 @@ message AmbientLight
     Flags flag = 2;
 }
 
-// Diagnostic information about hardware components
-// - Source: which sensor/actuator is being reported
-// - Status: Source status
-message HardwareDiagnostic
-{
-    enum Source {
-        // main board
-        OPTICS_MIRRORS = 0;
-        OPTICS_IR_LEDS = 1;
-        OPTICS_CAMERAS = 2;
-        OPTICS_LIQUID_LENS = 3;
-        OPTICS_1D_TOF = 4;
-        OPTICS_EYE_SAFETY_CIRCUIT_SELF_TEST = 5;
-        GNSS = 6;
-        TEMPERATURE_SENSORS_FRONT_UNIT = 7;
-        TEMPERATURE_SENSORS_MAIN_BOARD = 8;
-        TEMPERATURE_SENSORS_LIQUID_LENS = 9;
-        UI_ALS = 10;
-        UI_SOUND = 11;
-        MAIN_BOARD_SENTINEL = 12; // subject to change
-
-        // security board
-        SE050 = 50;
-        SECURITY_BOARD_SENTINEL = 51; // subject to change
-
-        UNKNOWN = 100;
-    }
-
-    enum Status {
-        STATUS_OK = 0;
-        STATUS_INITIALIZATION_ERROR = 1;
-        STATUS_SAFETY_ISSUE = 2;
-        STATUS_UNKNOWN = 3;
-    }
-
-    Source source = 1;
-    Status status = 2;
-}
-
 //
 // *** NOTE: IR Eye Focus Sweep ***
 //
