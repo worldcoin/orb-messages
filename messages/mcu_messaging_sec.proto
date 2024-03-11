@@ -51,6 +51,7 @@ message SecToJetson
         private.TamperStates tamper_states = 10;
         Temperature temperature = 11;
         MemfaultEvent memfault_event = 12;
+        HardwareDiagnostic hardware_diag = 13;
     }
 }
 
