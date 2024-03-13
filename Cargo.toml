@@ -12,7 +12,7 @@ rust-version = "1.74" # See rust-toolchain.toml
 
 [dependencies]
 prost = "0.12.3"
-thiserror = "1.0.57"
+thiserror = "1"
 
 [build-dependencies]
 prost-build = "0.12.3"
