@@ -1,3 +1,4 @@
+#![forbid(unsafe_code)]
 #![allow(clippy::all, clippy::pedantic)]
 
 use thiserror::Error;
