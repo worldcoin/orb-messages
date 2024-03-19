@@ -1,5 +1,5 @@
 {
-  description = "orb-mcu-messaging flake";
+  description = "orb-messages flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";

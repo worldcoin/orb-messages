@@ -1,13 +1,13 @@
 [package]
-name = "orb-mcu-messaging"
+name = "orb-messages"
 version = "0.3.0"
-authors = [
-    "Cyril Fougeray <cyril.fougeray@toolsforhumanity.com>",
-]
+description = "Protobuf messages between the jetson and the mcus"
+authors = ["Cyril Fougeray <cyril.fougeray@toolsforhumanity.com>"]
+publish = false
+
 edition = "2021"
 license = "MIT OR (Apache-2.0 WITH LLVM-exception)"
-publish = false
-repository = "https://github.com/worldcoin/open-orb-mcu-messaging"
+repository = "https://github.com/worldcoin/orb-messages"
 rust-version = "1.74" # See rust-toolchain.toml
 
 [dependencies]
