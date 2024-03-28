@@ -262,3 +262,9 @@ message MemfaultEvent
     uint32 counter = 1;
     bytes chunk = 2;
 }
+
+// Ask the microcontroller to send its diagnostic data
+// Triggers synchronisation of any stored events when the
+// Jetson was offline such as Hardware diagnostics, logs
+// & Memfault data
+message SyncDiagData {}

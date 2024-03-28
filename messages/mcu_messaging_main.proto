@@ -79,6 +79,7 @@ message JetsonToMcu
         ConeLEDsSequence cone_leds_sequence = 43;
         ConeLEDsPattern cone_leds_pattern = 44;
         WhiteLEDsBrightness white_leds_brightness = 45;
+        SyncDiagData sync_diag_data = 46;
     }
 }
 

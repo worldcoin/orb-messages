@@ -31,6 +31,7 @@ message JetsonToSec
         FirmwareActivateSecondary fw_image_secondary_activate = 21;
         ValueGet value_get = 22;
         FirmwareConfirmPrimary fw_image_primary_confirm = 23;
+        SyncDiagData sync_diag_data = 24;
     }
 }
 
