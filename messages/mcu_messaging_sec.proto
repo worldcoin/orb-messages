@@ -61,7 +61,7 @@ message SERequest
     enum RequestType {
         READ_WRITE = 0;
         CLEAR_READ_BUFFER = 1;
-        POWER_CYCLE = 2;
+        POWER_OFF = 2;
     };
     uint32 id = 1;
     bytes data = 2;
