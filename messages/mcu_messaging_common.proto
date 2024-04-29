@@ -118,6 +118,7 @@ message Hardware
 
         HW_VERSION_DIAMOND_POC1 = 20;
         HW_VERSION_DIAMOND_POC2 = 21;
+        HW_VERSION_DIAMOND_B3 = 22;
     }
     OrbVersion version = 1;
 }
