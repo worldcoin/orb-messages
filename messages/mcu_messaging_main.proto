@@ -115,6 +115,7 @@ message McuToJetson
         BatteryInfoSocAndStatistics battery_info_soc_and_statistics = 26;
         ConePresent cone_present = 27;
         MemfaultEvent memfault_event = 28;
+        BatteryStateOfHealth battery_state_of_health = 29;
     }
 }
 
@@ -558,6 +559,9 @@ message BatteryDiagnosticPermanentFail
 
 // Battery Capacity [in %]
 message BatteryCapacity { uint32 percentage = 1; }
+
+// Battery State of Health [in %]
+message BatteryStateOfHealth { uint32 percentage = 1; }
 
 // Is battery charging?
 message BatteryIsCharging { bool battery_is_charging = 1; }
