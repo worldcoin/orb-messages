@@ -27,8 +27,8 @@ community include:
 
 Examples of unacceptable behavior include:
 
-- The use of sexualized language or imagery, and sexual attention or advances
-  of any kind
+- The use of sexualized language or imagery, and sexual attention or advances of
+  any kind
 - Trolling, insulting or derogatory comments, and personal or political attacks
 - Public or private harassment
 - Disruptive behavior
@@ -44,8 +44,8 @@ source materials not be used:
   or other unlawful targeted actions, including on the basis on race, gender,
   sexual orientation, or religion; or
 - In any activity or manner that violates, or supports, assists, facilitates,
-  enables, constitutes or is otherwise deemed to be a violation of the
-  Universal Declaration of Human Rights
+  enables, constitutes or is otherwise deemed to be a violation of the Universal
+  Declaration of Human Rights
   (https://www.un.org/en/universaldeclaration-human-rights/), the International
   Covenant on Civil and Political Rights
   (https://www.ohchr.org/en/professionalinterest/pages/ccpr.aspx), the
@@ -63,18 +63,17 @@ or harmful.
 
 Community leaders have the right and responsibility to remove, edit, or reject
 comments, commits, code, wiki edits, issues, and other contributions that are
-not aligned to this Code of Conduct, and will communicate reasons for
-moderation decisions when appropriate.
+not aligned to this Code of Conduct, and will communicate reasons for moderation
+decisions when appropriate.
 
 ## Scope
 
-This Code of Conduct applies within all project spaces, and it also applies
-when an individual is representing the project or its community in public
-spaces. Examples of representing a project or community include using an
-official project e-mail address, posting via an official social media account,
-or acting as an appointed representative at an online or offline event.
-Representation of a project may be further defined and clarified by project
-maintainers.
+This Code of Conduct applies within all project spaces, and it also applies when
+an individual is representing the project or its community in public spaces.
+Examples of representing a project or community include using an official
+project e-mail address, posting via an official social media account, or acting
+as an appointed representative at an online or offline event. Representation of
+a project may be further defined and clarified by project maintainers.
 
 This Code of Conduct also applies outside the project spaces when there is a
 reasonable belief that an individual's behavior may have a negative impact on
@@ -84,9 +83,9 @@ the project or its community.
 
 We encourage all communities to resolve issues on their own whenever possible.
 Instances of abusive, harassing, or otherwise unacceptable behavior should be
-reported to the community leaders responsible for enforcement in a given
-project or to legal@worldcoin.org. All project and community leaders are
-obligated to respect the privacy and security of the reporter of any incident.
+reported to the community leaders responsible for enforcement in a given project
+or to legal@worldcoin.org. All project and community leaders are obligated to
+respect the privacy and security of the reporter of any incident.
 
 ## Attribution
 

@@ -6,7 +6,7 @@ on:
     branches:
       - main
     tags:
-      - '**'
+      - "**"
 
 jobs:
   fmt:
@@ -70,7 +70,7 @@ jobs:
     name: Test
     strategy:
       matrix:
-        platform: [ ubuntu-22.04 ]
+        platform: [ubuntu-22.04]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # pin@v3

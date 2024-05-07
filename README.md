@@ -18,7 +18,7 @@ constraints in any other languages.
 
 We don't want to publicly share the definitions of messages that are used to
 communicate tamper events, because it could reveal information about what the
-microcontroller is detecting. Instead, for these sensitive messages we provide 
+microcontroller is detecting. Instead, for these sensitive messages we provide
 publicly available stubs, where the message contents are empty.
 
 The directory structure looks like this:
