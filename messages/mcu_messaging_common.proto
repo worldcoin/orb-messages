@@ -269,3 +269,22 @@ message MemfaultEvent
 // Jetson was offline such as Hardware diagnostics, logs
 // & Memfault data
 message SyncDiagData {}
+
+// Chaos engineering test
+// only available in debug builds
+message DiagTest
+{
+    enum Action {
+        TRIGGER_WATCHDOG = 0;
+        TRIGGER_ASSERT_SOFT = 1;
+        TRIGGER_ASSERT_HARD = 2;
+        TRIGGER_LOG = 3;
+        TRIGGER_BUSFAULT = 4;
+        TRIGGER_HARDFAULT = 5;
+        TRIGGER_MEMMANAGE = 6;
+        TRIGGER_USAGEFAULT = 7;
+        TRIGGER_K_PANIC = 8;
+        TRIGGER_K_OOPS = 9;
+    }
+    Action action = 1;
+}

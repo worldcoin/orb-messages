@@ -32,6 +32,7 @@ message JetsonToSec
         ValueGet value_get = 22;
         FirmwareConfirmPrimary fw_image_primary_confirm = 23;
         SyncDiagData sync_diag_data = 24;
+        DiagTest diag_test = 25;
     }
 }
 
