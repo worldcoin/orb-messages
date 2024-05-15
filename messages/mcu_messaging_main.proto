@@ -117,6 +117,7 @@ message McuToJetson
         ConePresent cone_present = 27;
         MemfaultEvent memfault_event = 28;
         BatteryStateOfHealth battery_state_of_health = 29;
+        McuShutdownScheduled shutdown = 30;
     }
 }
 
@@ -796,3 +797,12 @@ message BatteryResetReason
 }
 
 message ConePresent { bool cone_present = 1; }
+
+message McuShutdownScheduled {
+    enum ShutdownReason {
+        UNSPECIFIED = 0;
+        BATTERY_REMOVED = 1;
+    }
+    ShutdownReason shutdown_reason = 1;
+    optional uint32 ms_until_shutdown = 2;
+}
