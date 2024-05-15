@@ -38,12 +38,13 @@
             pkg-config-unwrapped
 
             # Developer tools
+            clang-tools
+            cargo-binutils
             cargo-deny
             cargo-expand
-            cargo-binutils
-            protobuf
             nixpkgs-fmt
             pre-commit
+            protobuf
 
             # This is missing on mac m1 nix, for some reason.
             # see https://stackoverflow.com/a/69732679
