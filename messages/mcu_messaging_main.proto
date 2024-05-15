@@ -28,6 +28,7 @@ message McuMessage
 message JetsonToMcu
 {
     reserved 15; // was 740nm brightness
+    reserved 31; // was 740nm on_time
 
     uint32 ack_number = 1; // monotonically incrementing number. We will
                            // acknowledge all messages
@@ -61,7 +62,6 @@ message JetsonToMcu
         FirmwareImageCheck fw_image_check = 28;
         FirmwareActivateSecondary fw_image_secondary_activate = 29;
         Heartbeat heartbeat = 30;
-        LedOnTimeUs led_on_time_740nm = 31;
         MirrorAngleRelative mirror_angle_relative = 32;
         ValueGet value_get = 33;
         UserRingLEDsSequence ring_leds_sequence = 34;
@@ -124,13 +124,16 @@ message InfraredLEDs
 {
     enum Wavelength {
         WAVELENGTH_NONE = 0;
-        WAVELENGTH_740NM = 1;
+        WAVELENGTH_740NM = 1 [deprecated=true];
         WAVELENGTH_850NM = 2;
         WAVELENGTH_940NM = 3;
         WAVELENGTH_850NM_LEFT = 4;
         WAVELENGTH_850NM_RIGHT = 5;
         WAVELENGTH_940NM_LEFT = 6;
         WAVELENGTH_940NM_RIGHT = 7;
+        WAVELENGTH_850NM_CENTER = 8;
+        WAVELENGTH_850NM_SIDE = 9;
+        WAVELENGTH_940NM_SINGLE = 10;
     }
     Wavelength wavelength = 1;
 }
@@ -314,11 +317,6 @@ message ConeLEDsPattern
 //   is greater than max_fps as specified by this message, then max_fps will
 //   be respected, else it will be ignored.
 //
-
-// For 740nm LEDs:
-//   There is no safety concern with these LED, so the only constraint comes
-//   from the max power allowed through the circuit. The contraint is a maximum
-//   duty cycle of 45%
 message CameraMaxFrameRate
 {
     uint32 max_fps = 1; // [1..1000] fps
