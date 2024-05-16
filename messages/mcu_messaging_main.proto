@@ -124,7 +124,7 @@ message InfraredLEDs
 {
     enum Wavelength {
         WAVELENGTH_NONE = 0;
-        WAVELENGTH_740NM = 1 [deprecated=true];
+        WAVELENGTH_740NM = 1 [ deprecated = true ];
         WAVELENGTH_850NM = 2;
         WAVELENGTH_940NM = 3;
         WAVELENGTH_850NM_LEFT = 4;
