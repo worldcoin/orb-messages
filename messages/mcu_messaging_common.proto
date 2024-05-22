@@ -120,7 +120,28 @@ message Hardware
         HW_VERSION_DIAMOND_POC2 = 21;
         HW_VERSION_DIAMOND_B3 = 22;
     }
+
+    enum FrontUnitVersion {
+        FRONT_UNIT_VERSION_UNKNOWN = 0; // Default value based on OrbVersion
+        FRONT_UNIT_VERSION_V6_0 = 1;
+        FRONT_UNIT_VERSION_V6_1 = 2;
+        FRONT_UNIT_VERSION_V6_2A = 3;
+        FRONT_UNIT_VERSION_V6_2B = 4;
+    }
+
+    enum PowerBoardVersion {
+        POWER_BOARD_VERSION_UNKNOWN = 0; // Default value based on OrbVersion
+        POWER_BOARD_VERSION_V1_0 = 1;
+        POWER_BOARD_VERSION_V1_1 = 2;
+        POWER_BOARD_VERSION_V1_2 = 3;
+    }
+
+    // Orb version
     OrbVersion version = 1;
+    // Front unit version, used with Diamond Orbs
+    FrontUnitVersion front_unit = 2;
+    // Power board version, used with Diamond Orbs
+    PowerBoardVersion power_board = 3;
 }
 
 message Temperature
