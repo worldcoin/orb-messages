@@ -286,10 +286,23 @@ message MemfaultEvent
 }
 
 // Ask the microcontroller to send its diagnostic data
-// Triggers synchronisation of any stored events when the
-// Jetson was offline such as Hardware diagnostics, logs
+// /!\ The sender must ensure the Internet connection is available.
+// Triggers synchronisation of any stored events on the mcu
+// when the Jetson was offline such as Hardware diagnostics, logs
 // & Memfault data
-message SyncDiagData {}
+message SyncDiagData
+{
+    // Expected interval between each SyncDiagData message, in seconds,
+    // **as long as the Orb is connected to the Internet**.
+    // Don't allow an arbitrary `interval` value to ensure that we
+    // can track the Orb's connectivity (e.g. the Orb can be considered
+    // offline if no SyncDiagData message is received after 3 intervals).
+    enum SyncInterval {
+        NO_INTERVAL = 0; // No interval, only one sync
+        NEXT_ONLINE_SYNC_SECONDS = 20;
+    }
+    SyncInterval interval = 1;
+}
 
 // Chaos engineering test
 // only available in debug builds
