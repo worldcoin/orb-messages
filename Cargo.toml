@@ -1,6 +1,6 @@
 [package]
 name = "orb-messages"
-version = "0.3.0"
+version = "0.0.0"
 description = "Protobuf messages between the jetson and the mcus"
 authors = ["Cyril Fougeray <cyril.fougeray@toolsforhumanity.com>"]
 publish = false
