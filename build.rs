@@ -6,7 +6,8 @@ fn main() {
     // NOTE: We cannot use `CARGO_MANIFEST_DIR`, because protoc doesn't work well with
     // absolute paths.
     #[allow(clippy::eq_op)]
-    let is_public = env!("CARGO_PKG_NAME") == "orb-messages";
+    let is_public =
+        env!("CARGO_PKG_REPOSITORY") == "https://github.com/worldcoin/orb-messages";
     let (messages_dir, priv_dir) = if is_public {
         println!("cargo:warning=Be aware that private definitions are stubbed out when building the public crate.");
 
