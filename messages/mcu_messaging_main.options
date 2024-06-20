@@ -1,7 +1,7 @@
 GNSSData.nmea max_length: 82
 GNSSDataPartial.nmea_part max_length: 50
-UserCenterLEDsSequence.rgb_uncompressed max_size: 69
-UserCenterLEDsSequence.argb32_uncompressed max_size: 92
+UserCenterLEDsSequence.rgb_uncompressed max_size: 192
+UserCenterLEDsSequence.argb32_uncompressed max_size: 256
 UserRingLEDsSequence.rgb_uncompressed max_size: 672
 UserRingLEDsSequence.argb32_uncompressed max_size: 396
 DistributorLEDsSequence.rgb_uncompressed max_size: 15
