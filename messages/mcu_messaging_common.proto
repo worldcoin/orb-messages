@@ -175,10 +175,12 @@ message Temperature
         FRONT_UNIT_940_LEFT_BOTTOM = 25;
         FRONT_UNIT_940_RIGHT_TOP = 26;
         FRONT_UNIT_940_RIGHT_BOTTOM = 27;
-        FRONT_UNIT_940_CENTER_TOP = 28;
-        FRONT_UNIT_940_CENTER_BOTTOM = 29;
+        FRONT_UNIT_940_CENTER_TOP = 28 [ deprecated = true ];
+        FRONT_UNIT_940_CENTER_BOTTOM = 29 [ deprecated = true ];
         FRONT_UNIT_WHITE_TOP = 30;
         FRONT_UNIT_SHROUD_RGB_TOP = 31;
+        FRONT_UNIT_850_CENTER_TOP = 32;
+        FRONT_UNIT_850_CENTER_BOTTOM = 33;
     }
 
     TemperatureSource source = 1;
