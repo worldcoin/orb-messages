@@ -159,6 +159,10 @@ message RgbColor
     uint32 red = 1;   // [0...255]
     uint32 green = 2; // [0...255]
     uint32 blue = 3;  // [0...255]
+    uint32 dimming =
+        4; // [1...31] from low to high brightness.
+           // /!\ 0 (default if unused) will use full brightness (31)
+           //     the value is clamped to 31
 }
 
 // Control brightness and pattern of front-mounted UX/user LEDs.
@@ -798,7 +802,8 @@ message BatteryResetReason
 
 message ConePresent { bool cone_present = 1; }
 
-message ShutdownScheduled {
+message ShutdownScheduled
+{
     enum ShutdownReason {
         UNSPECIFIED = 0;
         BATTERY_REMOVED = 1;
