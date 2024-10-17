@@ -19,23 +19,18 @@ if (CONFIG_ORB_MCU_MESSAGING_LIB)
     set(NANOPB_OPTIONS "-I${CMAKE_CURRENT_SOURCE_DIR}/../messages/")
 
     set(SRC_FILES)
-    if (CONFIG_BOARD_PEARL_SECURITY OR CONFIG_BOARD_DIAMOND_SECURITY)
-        # look for mcu_messaging_sec_priv.proto in private first, then in private_stub
-        set(PRIV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../messages/private)
-        if (NOT EXISTS ${PRIV_INCLUDE_DIR}/mcu_messaging_sec_priv.proto)
-            set(PRIV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../messages/private_stub)
-            if (NOT EXISTS ${PRIV_INCLUDE_DIR}/mcu_messaging_sec_priv.proto)
-                message(FATAL_ERROR "mcu_messaging_sec_priv.proto not found in private or private_stub")
-            endif ()
+    # look for sec_priv.proto in private first, then in private_stub
+    set(PRIV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../messages/private)
+    if (NOT EXISTS ${PRIV_INCLUDE_DIR}/sec_priv.proto)
+        set(PRIV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../messages/private_stub)
+        if (NOT EXISTS ${PRIV_INCLUDE_DIR}/sec_priv.proto)
+            message(FATAL_ERROR "sec_priv.proto not found in private or private_stub")
         endif ()
-        # mcu_messaging_sec_priv.proto must be first in the list
-        list(APPEND PROTO_FILES ${PRIV_INCLUDE_DIR}/mcu_messaging_sec_priv.proto ../messages/mcu_messaging_sec.proto ../messages/mcu_messaging_common.proto)
-        list(APPEND SRC_FILES ${CMAKE_CURRENT_BINARY_DIR}/mcu_messaging_sec.pb.c ${CMAKE_CURRENT_BINARY_DIR}/mcu_messaging_common.pb.c ${CMAKE_CURRENT_BINARY_DIR}/mcu_messaging_sec_priv.pb.c)
-        list(APPEND NANOPB_OPTIONS "-I${PRIV_INCLUDE_DIR}")
-    else ()
-        list(APPEND PROTO_FILES ../messages/mcu_messaging_main.proto ../messages/mcu_messaging_common.proto)
-        list(APPEND SRC_FILES ${CMAKE_CURRENT_BINARY_DIR}/mcu_messaging_main.pb.c ${CMAKE_CURRENT_BINARY_DIR}/mcu_messaging_common.pb.c)
     endif ()
+    # sec_priv.proto must be first in the list
+    list(APPEND PROTO_FILES ../messages/orb.proto ../messages/main.proto ../messages/sec.proto ../messages/common.proto ${PRIV_INCLUDE_DIR}/sec_priv.proto)
+    list(APPEND SRC_FILES ${CMAKE_CURRENT_BINARY_DIR}/main.pb.c ${CMAKE_CURRENT_BINARY_DIR}/sec.pb.c ${CMAKE_CURRENT_BINARY_DIR}/common.pb.c ${CMAKE_CURRENT_BINARY_DIR}/sec_priv.pb.c)
+    list(APPEND NANOPB_OPTIONS "-I${PRIV_INCLUDE_DIR}")
 
     # use provided function to generate C files
     # it will create a custom command that is launched if ${proto_sources} are dependencies
