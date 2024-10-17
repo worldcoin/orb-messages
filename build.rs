@@ -22,23 +22,12 @@ fn main() {
     println!("cargo:rerun-if-changed={}", messages_dir.display());
     println!("cargo:rerun-if-changed={}", priv_dir.display());
 
-    let main_proto = messages_dir.join("mcu_messaging_main.proto");
-    let sec_proto = messages_dir.join("mcu_messaging_sec.proto");
-    let sec_priv_proto = priv_dir.join("mcu_messaging_sec_priv.proto");
-
-    // Codegen with protoc.
+    // These protos and any others that are imported by them will get compiled
     if let Err(err) = || -> std::io::Result<()> {
-        prost_build::Config::default()
-            .default_package_filename("mcu_messaging_main")
-            .compile_protos(&[main_proto], &[messages_dir])?;
-
-        prost_build::Config::default()
-            .default_package_filename("mcu_messaging_sec")
-            .compile_protos(&[sec_proto], &[messages_dir, &priv_dir])?;
-
-        prost_build::Config::default()
-            .default_package_filename("mcu_messaging_sec_priv")
-            .compile_protos(&[sec_priv_proto], &[priv_dir])?;
+        prost_build::Config::default().compile_protos(
+            &[messages_dir.join("orb.proto")],
+            &[messages_dir, priv_dir],
+        )?;
 
         Ok(())
     }() {

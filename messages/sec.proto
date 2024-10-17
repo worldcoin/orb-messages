@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package orb.sec;
+
+import "common.proto";
+import "sec_priv.proto";
+
+enum Version {
+    VERSION_0 = 0;
+}
+
+message JetsonToSec
+{
+    uint32 ack_number = 1; // monotonically incrementing number. We will
+                           // acknowledge all messages
+    oneof payload
+    {
+        orb.RebootWithDelay reboot = 3;
+        orb.FirmwareUpdateData dfu_block = 4;
+        orb.Heartbeat heartbeat = 5;
+        SERequest se_request = 6;
+        orb.FirmwareImageCheck fw_image_check = 20;
+        orb.FirmwareActivateSecondary fw_image_secondary_activate = 21;
+        orb.ValueGet value_get = 22;
+        orb.FirmwareConfirmPrimary fw_image_primary_confirm = 23;
+        orb.SyncDiagData sync_diag_data = 24;
+        orb.DiagTest diag_test = 25;
+    }
+}
+
+message SecToJetson
+{
+    reserved 6; // used in previous versions
+
+    oneof payload
+    {
+        orb.Ack ack = 1;
+        orb.Versions versions = 2;
+        orb.Log log = 3;
+        sec.private.SEResponse se_response = 4;
+        sec.private.Tamper tampered = 5;
+        orb.BatteryStatus battery_status = 7;
+        orb.FatalError fatal_error = 8;
+        sec.private.TamperRaw tamper_raw = 9;
+        sec.private.TamperStates tamper_states = 10;
+        orb.Temperature temperature = 11;
+        orb.MemfaultEvent memfault_event = 12;
+        orb.HardwareDiagnostic hardware_diag = 13;
+    }
+}
+
+message SERequest
+{
+    enum RequestType {
+        READ_WRITE = 0;
+        CLEAR_READ_BUFFER = 1;
+        POWER_OFF = 2;
+    };
+    uint32 id = 1;
+    bytes data = 2;
+    uint32 rx_length = 3;
+    RequestType request_type = 4;
+}

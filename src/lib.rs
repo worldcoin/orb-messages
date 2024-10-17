@@ -1,31 +1,31 @@
 #![forbid(unsafe_code)]
-#![allow(clippy::all, clippy::pedantic)]
 
 use thiserror::Error;
 
-pub mod mcu_main;
-pub mod mcu_sec;
+pub use ::prost;
 
-impl core::fmt::Display for mcu_main::ack::ErrorCode {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        f.write_str(match self {
-            Self::Success => "operation succeeded",
-            Self::Version => "unsupported version",
-            Self::Range => "argument is out of range",
-            Self::InProgress => "operation is already in progress",
-            Self::Fail => "operation failed",
-            Self::OverTemperature => {
-                "operation could not be completed because of overheating"
-            }
-            Self::OperationNotSupported => "operation is not supported",
-            Self::InvalidState => {
-                "message can not be processed because of the current state"
-            }
-        })
+#[allow(clippy::all, clippy::pedantic)]
+mod generated {
+    include!(concat!(env!("OUT_DIR"), "/orb.rs"));
+
+    /// Main MCU messages
+    pub mod main {
+        include!(concat!(env!("OUT_DIR"), "/orb.main.rs"));
+    }
+
+    /// Security MCU messages
+    pub mod sec {
+        include!(concat!(env!("OUT_DIR"), "/orb.sec.rs"));
+
+        /// Private obfuscated messages
+        pub mod private {
+            include!(concat!(env!("OUT_DIR"), "/orb.sec.private.rs"));
+        }
     }
 }
+pub use generated::*;
 
-impl core::fmt::Display for mcu_sec::ack::ErrorCode {
+impl core::fmt::Display for ack::ErrorCode {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.write_str(match self {
             Self::Success => "operation succeeded",
@@ -84,26 +84,9 @@ impl From<i32> for CommonAckError {
 }
 
 /// Converts a `mcu_main::ack::ErrorCode` to a `CommonAckError`.
-impl From<mcu_main::ack::ErrorCode> for CommonAckError {
-    fn from(value: mcu_main::ack::ErrorCode) -> Self {
-        use mcu_main::ack::ErrorCode as E;
-        match value {
-            E::Success => Self::Success,
-            E::Version => Self::Version,
-            E::Range => Self::Range,
-            E::InProgress => Self::InProgress,
-            E::Fail => Self::Fail,
-            E::OverTemperature => Self::OverTemperature,
-            E::OperationNotSupported => Self::OperationNotSupported,
-            E::InvalidState => Self::InvalidState,
-        }
-    }
-}
-
-/// Converts a `mcu_sec::ack::ErrorCode` to a `CommonAckError`.
-impl From<mcu_sec::ack::ErrorCode> for CommonAckError {
-    fn from(value: mcu_sec::ack::ErrorCode) -> Self {
-        use mcu_sec::ack::ErrorCode as E;
+impl From<ack::ErrorCode> for CommonAckError {
+    fn from(value: ack::ErrorCode) -> Self {
+        use ack::ErrorCode as E;
         match value {
             E::Success => Self::Success,
             E::Version => Self::Version,
