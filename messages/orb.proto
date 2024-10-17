@@ -1,11 +1,10 @@
 syntax = "proto3";
 
-// This file is the root of the entire package heirarchy.
+// This file is the root of the entire package hierarchy.
 package orb;
 
 import "main.proto";
 import "sec.proto";
-import "common.proto";
 
 // Any change in version number should be made only if:
 // - at least one new field is mandatory for the message to be correctly
@@ -31,4 +30,3 @@ message McuMessage
         sec.SecToJetson sec_to_jetson_message = 5;
     }
 }
-

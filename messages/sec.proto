@@ -37,12 +37,12 @@ message SecToJetson
         orb.Ack ack = 1;
         orb.Versions versions = 2;
         orb.Log log = 3;
-        sec.private.SEResponse se_response = 4;
-        sec.private.Tamper tampered = 5;
+        orb.sec.private.SEResponse se_response = 4;
+        orb.sec.private.Tamper tampered = 5;
         orb.BatteryStatus battery_status = 7;
         orb.FatalError fatal_error = 8;
-        sec.private.TamperRaw tamper_raw = 9;
-        sec.private.TamperStates tamper_states = 10;
+        orb.sec.private.TamperRaw tamper_raw = 9;
+        orb.sec.private.TamperStates tamper_states = 10;
         orb.Temperature temperature = 11;
         orb.MemfaultEvent memfault_event = 12;
         orb.HardwareDiagnostic hardware_diag = 13;
