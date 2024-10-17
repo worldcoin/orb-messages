@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package orb.sec;
+package orb.mcu.sec;
 
 import "common.proto";
 import "sec_priv.proto";
@@ -15,16 +15,16 @@ message JetsonToSec
                            // acknowledge all messages
     oneof payload
     {
-        orb.RebootWithDelay reboot = 3;
-        orb.FirmwareUpdateData dfu_block = 4;
-        orb.Heartbeat heartbeat = 5;
+        orb.mcu.RebootWithDelay reboot = 3;
+        orb.mcu.FirmwareUpdateData dfu_block = 4;
+        orb.mcu.Heartbeat heartbeat = 5;
         SERequest se_request = 6;
-        orb.FirmwareImageCheck fw_image_check = 20;
-        orb.FirmwareActivateSecondary fw_image_secondary_activate = 21;
-        orb.ValueGet value_get = 22;
-        orb.FirmwareConfirmPrimary fw_image_primary_confirm = 23;
-        orb.SyncDiagData sync_diag_data = 24;
-        orb.DiagTest diag_test = 25;
+        orb.mcu.FirmwareImageCheck fw_image_check = 20;
+        orb.mcu.FirmwareActivateSecondary fw_image_secondary_activate = 21;
+        orb.mcu.ValueGet value_get = 22;
+        orb.mcu.FirmwareConfirmPrimary fw_image_primary_confirm = 23;
+        orb.mcu.SyncDiagData sync_diag_data = 24;
+        orb.mcu.DiagTest diag_test = 25;
     }
 }
 
@@ -34,18 +34,18 @@ message SecToJetson
 
     oneof payload
     {
-        orb.Ack ack = 1;
-        orb.Versions versions = 2;
-        orb.Log log = 3;
-        orb.sec.private.SEResponse se_response = 4;
-        orb.sec.private.Tamper tampered = 5;
-        orb.BatteryStatus battery_status = 7;
-        orb.FatalError fatal_error = 8;
-        orb.sec.private.TamperRaw tamper_raw = 9;
-        orb.sec.private.TamperStates tamper_states = 10;
-        orb.Temperature temperature = 11;
-        orb.MemfaultEvent memfault_event = 12;
-        orb.HardwareDiagnostic hardware_diag = 13;
+        orb.mcu.Ack ack = 1;
+        orb.mcu.Versions versions = 2;
+        orb.mcu.Log log = 3;
+        orb.mcu.sec.private.SEResponse se_response = 4;
+        orb.mcu.sec.private.Tamper tampered = 5;
+        orb.mcu.BatteryStatus battery_status = 7;
+        orb.mcu.FatalError fatal_error = 8;
+        orb.mcu.sec.private.TamperRaw tamper_raw = 9;
+        orb.mcu.sec.private.TamperStates tamper_states = 10;
+        orb.mcu.Temperature temperature = 11;
+        orb.mcu.MemfaultEvent memfault_event = 12;
+        orb.mcu.HardwareDiagnostic hardware_diag = 13;
     }
 }
 

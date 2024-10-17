@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package orb.main;
+package orb.mcu.main;
 
 import "common.proto";
 
@@ -15,8 +15,8 @@ message JetsonToMcu
     oneof payload
     {
         ShutdownWithDelay shutdown = 2;
-        orb.RebootWithDelay reboot = 3;
-        orb.Temperature temperature = 4;
+        orb.mcu.RebootWithDelay reboot = 3;
+        orb.mcu.Temperature temperature = 4;
         MirrorAngle mirror_angle = 5;
         PerformMirrorHoming do_homing = 6;
         InfraredLEDs infrared_leds = 7;
@@ -26,7 +26,7 @@ message JetsonToMcu
         UserLEDsBrightness user_leds_brightness = 11;
         DistributorLEDsPattern distributor_leds_pattern = 12;
         DistributorLEDsBrightness distributor_leds_brightness = 13;
-        orb.FirmwareUpdateData dfu_block = 14;
+        orb.mcu.FirmwareUpdateData dfu_block = 14;
         StartTriggeringIrEyeCamera start_triggering_ir_eye_camera = 16;
         StopTriggeringIrEyeCamera stop_triggering_ir_eye_camera = 17;
         StartTriggeringIrFaceCamera start_triggering_ir_face_camera = 18;
@@ -38,15 +38,15 @@ message JetsonToMcu
         Fps fps = 25;
         LiquidLens liquid_lens = 26;
         VoltageRequest voltage_request = 27;
-        orb.FirmwareImageCheck fw_image_check = 28;
-        orb.FirmwareActivateSecondary fw_image_secondary_activate = 29;
-        orb.Heartbeat heartbeat = 30;
+        orb.mcu.FirmwareImageCheck fw_image_check = 28;
+        orb.mcu.FirmwareActivateSecondary fw_image_secondary_activate = 29;
+        orb.mcu.Heartbeat heartbeat = 30;
         MirrorAngleRelative mirror_angle_relative = 32;
-        orb.ValueGet value_get = 33;
+        orb.mcu.ValueGet value_get = 33;
         UserRingLEDsSequence ring_leds_sequence = 34;
         UserCenterLEDsSequence center_leds_sequence = 35;
         DistributorLEDsSequence distributor_leds_sequence = 36;
-        orb.FirmwareConfirmPrimary fw_image_primary_confirm = 37;
+        orb.mcu.FirmwareConfirmPrimary fw_image_primary_confirm = 37;
         IREyeCameraFocusSweepValuesPolynomial
             ir_eye_camera_focus_sweep_values_polynomial = 38;
         IREyeCameraFocusSweepLensValues ir_eye_camera_focus_sweep_lens_values =
@@ -58,8 +58,8 @@ message JetsonToMcu
         ConeLEDsSequence cone_leds_sequence = 43;
         ConeLEDsPattern cone_leds_pattern = 44;
         WhiteLEDsBrightness white_leds_brightness = 45;
-        orb.SyncDiagData sync_diag_data = 46;
-        orb.DiagTest diag_test = 47;
+        orb.mcu.SyncDiagData sync_diag_data = 46;
+        orb.mcu.DiagTest diag_test = 47;
     }
 }
 
@@ -67,26 +67,26 @@ message McuToJetson
 {
     oneof payload
     {
-        orb.Ack ack = 1;
+        orb.mcu.Ack ack = 1;
         PowerButton power_button = 2;
         BatteryVoltage battery_voltage = 3;
         BatteryCapacity battery_capacity = 4;
         GNSSData gnss = 5;
-        orb.Versions versions = 6;
-        orb.Temperature temperature = 7;
+        orb.mcu.Versions versions = 6;
+        orb.mcu.Temperature temperature = 7;
         FanStatus fan_status = 8;
         IMUData imu_data = 9;
         Voltage voltage = 10;
-        orb.Log log = 11;
+        orb.mcu.Log log = 11;
         MotorRange motor_range = 12;
-        orb.FatalError fatal_error = 13;
+        orb.mcu.FatalError fatal_error = 13;
         BatteryIsCharging battery_is_charging = 14;
         BatteryDiagnosticCommon battery_diag_common = 15;
         ToF_1D tof_1d = 16;
         GNSSDataPartial gnss_partial = 17;
         AmbientLight front_als = 18;
-        orb.Hardware hardware = 19;
-        orb.HardwareDiagnostic hardware_diag = 20;
+        orb.mcu.Hardware hardware = 19;
+        orb.mcu.HardwareDiagnostic hardware_diag = 20;
         BatteryResetReason battery_reset_reason = 21;
         BatteryDiagnosticSafety battery_diag_safety = 22;
         BatteryDiagnosticPermanentFail battery_diag_permanent_fail = 23;
@@ -94,7 +94,7 @@ message McuToJetson
         BatteryInfoMaxValues battery_info_max_values = 25;
         BatteryInfoSocAndStatistics battery_info_soc_and_statistics = 26;
         ConePresent cone_present = 27;
-        orb.MemfaultEvent memfault_event = 28;
+        orb.mcu.MemfaultEvent memfault_event = 28;
         BatteryStateOfHealth battery_state_of_health = 29;
         ShutdownScheduled shutdown = 30;
     }
@@ -720,7 +720,7 @@ message BatteryInfoHwFw
         BATTERY_HW_VERSION_UNDETECTED = 255;
     }
     HardwareVersion hw_version = 2;
-    orb.FirmwareVersion fw_version = 3;
+    orb.mcu.FirmwareVersion fw_version = 3;
 }
 
 message BatteryInfoMaxValues

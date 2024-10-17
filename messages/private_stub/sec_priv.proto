@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package orb.sec.private;
+package orb.mcu.sec.private;
 
 // incomplete, private definitions
 // to be overwritten by actual definitions

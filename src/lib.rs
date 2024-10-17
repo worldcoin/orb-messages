@@ -6,20 +6,20 @@ pub use ::prost;
 
 #[allow(clippy::all, clippy::pedantic)]
 mod generated {
-    include!(concat!(env!("OUT_DIR"), "/orb.rs"));
+    include!(concat!(env!("OUT_DIR"), "/orb.mcu.rs"));
 
     /// Main MCU messages
     pub mod main {
-        include!(concat!(env!("OUT_DIR"), "/orb.main.rs"));
+        include!(concat!(env!("OUT_DIR"), "/orb.mcu.main.rs"));
     }
 
     /// Security MCU messages
     pub mod sec {
-        include!(concat!(env!("OUT_DIR"), "/orb.sec.rs"));
+        include!(concat!(env!("OUT_DIR"), "/orb.mcu.sec.rs"));
 
         /// Private obfuscated messages
         pub mod private {
-            include!(concat!(env!("OUT_DIR"), "/orb.sec.private.rs"));
+            include!(concat!(env!("OUT_DIR"), "/orb.mcu.sec.private.rs"));
         }
     }
 }

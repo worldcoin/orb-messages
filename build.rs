@@ -18,6 +18,7 @@ fn main() {
 
     // rebuild if any of this changes
     println!("cargo:rerun-if-env-changed=PROTOC");
+    println!("cargo:rerun-if-env-changed=build.rs");
     println!("cargo:rerun-if-env-changed=PROTOC_INCLUDE");
     println!("cargo:rerun-if-changed={}", messages_dir.display());
     println!("cargo:rerun-if-changed={}", priv_dir.display());

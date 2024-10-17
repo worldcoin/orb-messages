@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 // This file is the root of the entire package hierarchy.
-package orb;
+package orb.mcu;
 
 import "main.proto";
 import "sec.proto";
