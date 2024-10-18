@@ -29,7 +29,7 @@ if (CONFIG_ORB_MCU_MESSAGING_LIB)
     endif ()
     # sec_priv.proto must be first in the list
     list(APPEND PROTO_FILES ${PRIV_INCLUDE_DIR}/sec_priv.proto ../messages/orb.proto ../messages/main.proto ../messages/sec.proto ../messages/common.proto)
-    list(APPEND SRC_FILES ${CMAKE_CURRENT_BINARY_DIR}/main.pb.c ${CMAKE_CURRENT_BINARY_DIR}/sec.pb.c ${CMAKE_CURRENT_BINARY_DIR}/common.pb.c ${CMAKE_CURRENT_BINARY_DIR}/sec_priv.pb.c)
+    list(APPEND SRC_FILES ${CMAKE_CURRENT_BINARY_DIR}/sec_priv.pb.c ${CMAKE_CURRENT_BINARY_DIR}/orb.pb.c ${CMAKE_CURRENT_BINARY_DIR}/main.pb.c ${CMAKE_CURRENT_BINARY_DIR}/sec.pb.c ${CMAKE_CURRENT_BINARY_DIR}/common.pb.c)
     list(APPEND NANOPB_OPTIONS "-I${PRIV_INCLUDE_DIR}")
 
     # use provided function to generate C files
