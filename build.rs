@@ -24,6 +24,6 @@ fn main() {
 
     // These protos and any others that are imported by them will get compiled
     prost_build::Config::default()
-        .compile_protos(&[messages_dir.join("orb.proto")], &[messages_dir, priv_dir])
+        .compile_protos(&[messages_dir.join("mcu.proto")], &[messages_dir, priv_dir])
         .expect("failed to compile protobufs");
 }
