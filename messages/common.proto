@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+// Types that are shared by all microcontrollers.
+// To avoid cyclic dependencies, we must avoid importing anything else.
+package orb.mcu;
+
 // This reply message is sent to acknowledge successful processing of a
 // JetsonToMcu message
 message Ack

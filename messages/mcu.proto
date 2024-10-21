@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+// This file is the root of the entire package hierarchy.
+package orb.mcu;
+
+import "main.proto";
+import "sec.proto";
+
+// Any change in version number should be made only if:
+// - at least one new field is mandatory for the message to be correctly
+// interpreted
+// - at least one field has been "renumbered"
+// - at least one field type has changed
+// Do not change version otherwise.
+// ⚠️ Version 0 considered as not stable
+
+//
+enum Version {
+    VERSION_0 = 0;
+}
+
+message McuMessage
+{
+    Version version = 1;
+    oneof message
+    {
+        main.JetsonToMcu j_message = 2;
+        main.McuToJetson m_message = 3;
+        sec.JetsonToSec jetson_to_sec_message = 4;
+        sec.SecToJetson sec_to_jetson_message = 5;
+    }
+}

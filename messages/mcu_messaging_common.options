@@ -1,3 +1,0 @@
-FirmwareUpdateData.image_block max_size: 39
-Log.log max_length: 50
-MemfaultEvent.chunk max_size: 50

@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package orb.mcu.sec;
+
+import "common.proto";
+import "sec_priv.proto";
+
+enum Version {
+    VERSION_0 = 0;
+}
+
+message JetsonToSec
+{
+    uint32 ack_number = 1; // monotonically incrementing number. We will
+                           // acknowledge all messages
+    oneof payload
+    {
+        orb.mcu.RebootWithDelay reboot = 3;
+        orb.mcu.FirmwareUpdateData dfu_block = 4;
+        orb.mcu.Heartbeat heartbeat = 5;
+        SERequest se_request = 6;
+        orb.mcu.FirmwareImageCheck fw_image_check = 20;
+        orb.mcu.FirmwareActivateSecondary fw_image_secondary_activate = 21;
+        orb.mcu.ValueGet value_get = 22;
+        orb.mcu.FirmwareConfirmPrimary fw_image_primary_confirm = 23;
+        orb.mcu.SyncDiagData sync_diag_data = 24;
+        orb.mcu.DiagTest diag_test = 25;
+    }
+}
+
+message SecToJetson
+{
+    reserved 6; // used in previous versions
+
+    oneof payload
+    {
+        orb.mcu.Ack ack = 1;
+        orb.mcu.Versions versions = 2;
+        orb.mcu.Log log = 3;
+        orb.mcu.sec.private.SEResponse se_response = 4;
+        orb.mcu.sec.private.Tamper tampered = 5;
+        orb.mcu.BatteryStatus battery_status = 7;
+        orb.mcu.FatalError fatal_error = 8;
+        orb.mcu.sec.private.TamperRaw tamper_raw = 9;
+        orb.mcu.sec.private.TamperStates tamper_states = 10;
+        orb.mcu.Temperature temperature = 11;
+        orb.mcu.MemfaultEvent memfault_event = 12;
+        orb.mcu.HardwareDiagnostic hardware_diag = 13;
+    }
+}
+
+message SERequest
+{
+    enum RequestType {
+        READ_WRITE = 0;
+        CLEAR_READ_BUFFER = 1;
+        POWER_OFF = 2;
+    };
+    uint32 id = 1;
+    bytes data = 2;
+    uint32 rx_length = 3;
+    RequestType request_type = 4;
+}
