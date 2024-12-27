@@ -5,8 +5,6 @@ package orb.mcu.sec.private;
 // incomplete, private definitions
 // to be overwritten by actual definitions
 
-message SEResponse {}
-
 message Tamper {}
 
 message TamperStates {}
