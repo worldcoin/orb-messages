@@ -37,7 +37,7 @@ message SecToJetson
         orb.mcu.Ack ack = 1;
         orb.mcu.Versions versions = 2;
         orb.mcu.Log log = 3;
-        orb.mcu.sec.private.SEResponse se_response = 4;
+        orb.mcu.sec.SEResponse se_response = 4;
         orb.mcu.sec.private.Tamper tampered = 5;
         orb.mcu.BatteryStatus battery_status = 7;
         orb.mcu.FatalError fatal_error = 8;
@@ -60,4 +60,11 @@ message SERequest
     bytes data = 2;
     uint32 rx_length = 3;
     RequestType request_type = 4;
+}
+
+message SEResponse
+{
+    uint32 id = 1;
+    int32 error_code = 2;
+    bytes data = 3;
 }
