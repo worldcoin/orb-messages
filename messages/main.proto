@@ -786,6 +786,7 @@ message ShutdownScheduled
     enum ShutdownReason {
         UNSPECIFIED = 0;
         BATTERY_REMOVED = 1;
+        JETSON_REQUESTED_REBOOT = 2;
     }
     ShutdownReason shutdown_reason = 1;
     optional uint32 ms_until_shutdown = 2;
