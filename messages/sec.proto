@@ -77,5 +77,5 @@ message Tamper {
     /// json is instead done at run time by other software.
     // NOTE: in proto3, all fields are implicitly optional. But we mark it
     // explicitly here just to be extra clear.
-    optional string unencrypted_json = 1 [(nanopb).max_size = 640];
+    optional string unencrypted_json = 1;
 }
