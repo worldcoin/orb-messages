@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package orb.mcu.sec;
 
-import "nanopb.proto";
 import "common.proto";
 import "sec_priv.proto";
 
