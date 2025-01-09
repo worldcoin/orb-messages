@@ -38,14 +38,15 @@ message SecToJetson
         orb.mcu.Versions versions = 2;
         orb.mcu.Log log = 3;
         orb.mcu.sec.SEResponse se_response = 4;
-        orb.mcu.sec.private.Tamper tampered = 5;
+        orb.mcu.sec.private.Tamper tampered = 5 [deprecated = true];
         orb.mcu.BatteryStatus battery_status = 7;
         orb.mcu.FatalError fatal_error = 8;
-        orb.mcu.sec.private.TamperRaw tamper_raw = 9;
-        orb.mcu.sec.private.TamperStates tamper_states = 10;
+        orb.mcu.sec.private.TamperRaw tamper_raw = 9 [deprecated = true];
+        orb.mcu.sec.private.TamperStates tamper_states = 10 [deprecated = true];
         orb.mcu.Temperature temperature = 11;
         orb.mcu.MemfaultEvent memfault_event = 12;
         orb.mcu.HardwareDiagnostic hardware_diag = 13;
+        orb.mcu.sec.Tamper tamper = 14;
     }
 }
 
@@ -67,4 +68,13 @@ message SEResponse
     uint32 id = 1;
     int32 error_code = 2;
     bytes data = 3;
+}
+
+message Tamper {
+    /// Contains tamper information serialized as json. It is "opaque" because
+    /// the schema of the json is not known by orb-messages. Inspecting the
+    /// json is instead done at run time by other software.
+    // NOTE: in proto3, all fields are implicitly optional. But we mark it
+    // explicitly here just to be extra clear.
+    optional string unencrypted_json = 1;
 }
