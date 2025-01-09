@@ -2,6 +2,6 @@
 
 include!(concat!(env!("OUT_DIR"), "/mcu_messaging_sec.rs"));
 
-pub(super) mod private {
+pub mod private {
     include!(concat!(env!("OUT_DIR"), "/private.rs"));
 }
