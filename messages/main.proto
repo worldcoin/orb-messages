@@ -598,6 +598,8 @@ message AmbientLight
         ALS_OK = 0;
         ALS_ERR_RANGE = 1; // likely too much light in the sensor, consider the
                            // value as ~500
+        ALS_ERR_LEDS_INTERFERENCE = 2; // front LEDs are turned on, interfering
+                                       // with ALS so value cannot be trusted
     };
     uint32 ambient_light_lux = 1;
     Flags flag = 2;
