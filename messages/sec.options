@@ -1,2 +1,3 @@
 orb.mcu.sec.SERequest.data max_size: 512
+orb.mcu.sec.SEResponse.data max_size: 512
 orb.mcu.sec.Tamper.unencrypted_json max_size: 640
