@@ -70,11 +70,13 @@ message SEResponse
     bytes data = 3;
 }
 
+/// Contains tamper information serialized in a self-describing format. It is
+/// "opaque" because the schema of the tamper message is not known by orb-messages.
+/// Inspecting the tamper message is instead done at runtime by other software.
 message Tamper {
-    /// Contains tamper information serialized as json. It is "opaque" because
-    /// the schema of the json is not known by orb-messages. Inspecting the
-    /// json is instead done at run time by other software.
-    // NOTE: in proto3, all fields are implicitly optional. But we mark it
-    // explicitly here just to be extra clear.
-    optional string unencrypted_json = 1;
+    oneof payload { 
+        /// Note: these are *not* minified, they are still using string based
+        /// identifiers for fields.
+        bytes unencrypted_cbor = 1;
+    }
 }
