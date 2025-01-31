@@ -2,19 +2,9 @@
 set(TARGET ORB_MCU_MESSAGING_LIB)
 
 if (CONFIG_ORB_MCU_MESSAGING_LIB)
-    # check that the proto compiler is installed
-    find_program(PROTOC protoc)
-    if (NOT PROTOC)
-        message(FATAL_ERROR "'protoc' not found, please ensure protoc is installed\
- and in path. See https://docs.zephyrproject.org/latest/samples/modules/nanopb/README.html")
-    endif ()
-
-    # import nanopb function from the library itself
-    if (NOT DEFINED WORKSPACE_DIR)
-        get_filename_component(WORKSPACE_DIR ${ZEPHYR_BASE} DIRECTORY)
-    endif ()
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${WORKSPACE_DIR}/modules/lib/nanopb/extra)
-    find_package(Nanopb REQUIRED)
+    # include nanopb to perform checks, see nanopb.cmake
+    list(APPEND CMAKE_MODULE_PATH ${ZEPHYR_BASE}/modules/nanopb)
+    include(nanopb)
 
     set(NANOPB_OPTIONS "-I${CMAKE_CURRENT_SOURCE_DIR}/../messages/")
 
@@ -48,16 +38,13 @@ if (CONFIG_ORB_MCU_MESSAGING_LIB)
             ${proto_headers}
     )
 
+    # see nanopb.cmake
+    add_dependencies(nanopb_generated_headers generate_proto_files)
+
     zephyr_interface_library_named(${TARGET})
-
-    target_include_directories(${TARGET} INTERFACE
-            ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-    zephyr_library()
+    zephyr_include_directories(${CMAKE_CURRENT_BINARY_DIR})
     zephyr_library_sources(
             ${SRC_FILES}
     )
-    zephyr_library_link_libraries(${TARGET})
-    target_link_libraries(${TARGET} INTERFACE zephyr_interface)
+    zephyr_link_libraries_ifdef(CONFIG_ORB_MCU_MESSAGING_LIB ${TARGET})
 endif ()
