@@ -123,6 +123,7 @@ message Hardware
         HW_VERSION_DIAMOND_POC1 = 20;
         HW_VERSION_DIAMOND_POC2 = 21;
         HW_VERSION_DIAMOND_B3 = 22;
+        HW_VERSION_DIAMOND_EVT = 23;
     }
 
     enum FrontUnitVersion {
@@ -131,6 +132,7 @@ message Hardware
         FRONT_UNIT_VERSION_V6_1 = 2;
         FRONT_UNIT_VERSION_V6_2A = 3;
         FRONT_UNIT_VERSION_V6_2B = 4;
+        FRONT_UNIT_VERSION_V6_3 = 5;
     }
 
     enum PowerBoardVersion {
