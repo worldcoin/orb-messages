@@ -132,7 +132,9 @@ message Hardware
         FRONT_UNIT_VERSION_V6_1 = 2;
         FRONT_UNIT_VERSION_V6_2A = 3;
         FRONT_UNIT_VERSION_V6_2B = 4;
-        FRONT_UNIT_VERSION_V6_3 = 5;
+        FRONT_UNIT_VERSION_V6_3A = 5;
+        FRONT_UNIT_VERSION_V6_3B = 6;
+        FRONT_UNIT_VERSION_V6_3C = 7;
     }
 
     enum PowerBoardVersion {
@@ -140,6 +142,7 @@ message Hardware
         POWER_BOARD_VERSION_V1_0 = 1;
         POWER_BOARD_VERSION_V1_1 = 2;
         POWER_BOARD_VERSION_V1_2 = 3;
+        POWER_BOARD_VERSION_V1_3 = 4;
     }
 
     // Orb version
