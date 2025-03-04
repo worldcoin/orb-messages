@@ -274,6 +274,7 @@ message HardwareDiagnostic
         STATUS_INITIALIZATION_ERROR = 1;
         STATUS_SAFETY_ISSUE = 2;
         STATUS_UNKNOWN = 3;
+        STATUS_NOT_SUPPORTED = 4;
     }
 
     Source source = 1;
