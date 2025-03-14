@@ -114,16 +114,17 @@ message Hardware
 {
     enum OrbVersion {
         HW_VERSION_UNKNOWN = 0;
-        HW_VERSION_PEARL_EV1 = 1;
+        HW_VERSION_PEARL_EV1 = 1 [ deprecated = true ];
         HW_VERSION_PEARL_EV2 = 2;
         HW_VERSION_PEARL_EV3 = 3;
         HW_VERSION_PEARL_EV4 = 4;
         HW_VERSION_PEARL_EV5 = 5;
 
-        HW_VERSION_DIAMOND_POC1 = 20;
-        HW_VERSION_DIAMOND_POC2 = 21;
-        HW_VERSION_DIAMOND_B3 = 22;
-        HW_VERSION_DIAMOND_EVT = 23;
+        HW_VERSION_DIAMOND_POC1 = 20 [ deprecated = true ];
+        HW_VERSION_DIAMOND_POC2 = 21 [ deprecated = true ];
+        HW_VERSION_DIAMOND_B3 = 22 [ deprecated = true ];
+        HW_VERSION_DIAMOND_EVT = 23; // v4.3
+        HW_VERSION_DIAMOND_V4_4 = 24;
     }
 
     enum FrontUnitVersion {
@@ -143,6 +144,7 @@ message Hardware
         POWER_BOARD_VERSION_V1_1 = 2;
         POWER_BOARD_VERSION_V1_2 = 3;
         POWER_BOARD_VERSION_V1_3 = 4;
+        POWER_BOARD_VERSION_V1_4 = 5;
     }
 
     enum ResetBoardVersion {
