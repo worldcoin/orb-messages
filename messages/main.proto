@@ -483,14 +483,16 @@ message FanSpeed
 message PerformMirrorHoming
 {
     enum Mode {
-        STALL_DETECTION = 0;  // default with stall detection
-        ONE_BLOCKING_END = 1; // perform `range` number of steps toward one
-                              // direction and `range/2` back to go to center
+        STALL_DETECTION = 0;        // default with stall detection
+        ONE_BLOCKING_END = 1;       // overreach ends to ensure position and
+                                    // go to home position
+        WITH_KNOWN_COORDINATES = 2; // go home with shortest path, given known
+                                    // position (cannot fix a gimbal offset)
     }
     enum Angle {
-        BOTH = 0; // both angles unless specified
-        VERTICAL_THETA = 1;
-        HORIZONTAL_PHI = 2;
+        BOTH = 0;           // both angles unless specified
+        VERTICAL_THETA = 1; // only with ONE_BLOCKING_END
+        HORIZONTAL_PHI = 2; // only with ONE_BLOCKING_END
     }
     Mode homing_mode = 1;
     Angle angle = 2;
