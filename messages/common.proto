@@ -15,10 +15,12 @@ message Ack
         IN_PROGRESS = 3;      // operation is already in progress
         FAIL = 4;             // operation failed
         OVER_TEMPERATURE = 5; // operation could not be completed because of
-        // over-temperature
-        OPERATION_NOT_SUPPORTED = 6;
+                              // over-temperature
+        OPERATION_NOT_SUPPORTED = 6; // command is not supported
         INVALID_STATE = 7; // message cannot be correctly processed because of
-        // the current state
+                           // the current state
+        FORBIDDEN = 8;     // forbidden in the current state,
+                           // could be safety related
     }
     uint32 ack_number = 1;
     ErrorCode error = 2;
