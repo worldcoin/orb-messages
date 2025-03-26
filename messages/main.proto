@@ -21,7 +21,7 @@ message JetsonToMcu
         PerformMirrorHoming do_homing = 6;
         InfraredLEDs infrared_leds = 7;
         LedOnTimeUs led_on_time = 8;
-        CameraMaxFrameRate max_frame_rate = 9;
+        CameraMaxFrameRate max_frame_rate = 9 [ deprecated = true ]; // see Fps
         UserLEDsPattern user_leds_pattern = 10;
         UserLEDsBrightness user_leds_brightness = 11;
         DistributorLEDsPattern distributor_leds_pattern = 12;
@@ -288,29 +288,26 @@ message ConeLEDsPattern
     RgbColor custom_color = 3;
 }
 
-// Maximum frame rate in frames per second [1...1000].
-//
-// For 850nm and 940nm LEDs:
-//   The idea here is that the camera frame rate is determined
-//   by the on_duration of the infrared LEDs. The MCU calculates the fastest
-//   frame rate permitted by a certain on_duration given by the eye safety
-//   equation: on_time_us * fps <= 100,000, where on_time_us <= 5000. In the
-//   case that one wants to use a lower frame rate than the maximum allowable
-//   at a particular on_duration, one may transmit this message to specify
-//   the maximum frame rate. If the maximum frame rate at current on_duration
-//   is greater than max_fps as specified by this message, then max_fps will
-//   be respected, else it will be ignored.
-//
+// deprecated
 message CameraMaxFrameRate
 {
     uint32 max_fps = 1; // [1..1000] fps
 }
 
+// IR LED on duration.
+// Setting the IR LED on duration is dependent on any FPS that is
+// already set and different from 0, as it must not exceed (FPS * max duty
+// cycle)
 message LedOnTimeUs
 {
     uint32 on_duration_us = 1; // [0...5000us]
 }
 
+// Setting the cameras' FPS is dependent on any already set IR LED on duration
+// (different than 0) Indeed, this command will comply to safety constraints
+// given by the current IR LED on-duration: if the IR LED on-duration is larger
+// than (FPS * max duty cycle), the command will fail. The user needs to
+// decrease IR LED on time first, then set the FPS.
 message Fps
 {
     uint32 fps = 1; // [0...60]
