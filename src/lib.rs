@@ -40,6 +40,9 @@ impl core::fmt::Display for ack::ErrorCode {
             Self::InvalidState => {
                 "message can not be processed because of the current state"
             }
+            Self::Forbidden => {
+                "operation is forbidden in the current state (is it a safe operation?)"
+            }
         })
     }
 }
@@ -63,6 +66,8 @@ pub enum CommonAckError {
     OperationNotSupported,
     #[error("message can not be processed because of the current state")]
     InvalidState,
+    #[error("operation is forbidden in the current state (is it a safe operation?)")]
+    Forbidden,
 }
 
 impl From<i32> for CommonAckError {
@@ -76,6 +81,7 @@ impl From<i32> for CommonAckError {
             5 => CommonAckError::OverTemperature,
             6 => CommonAckError::OperationNotSupported,
             7 => CommonAckError::InvalidState,
+            8 => CommonAckError::Forbidden,
             _ => {
                 panic!("Unknown error code: {}", value)
             }
@@ -96,6 +102,7 @@ impl From<ack::ErrorCode> for CommonAckError {
             E::OverTemperature => Self::OverTemperature,
             E::OperationNotSupported => Self::OperationNotSupported,
             E::InvalidState => Self::InvalidState,
+            E::Forbidden => Self::Forbidden,
         }
     }
 }
