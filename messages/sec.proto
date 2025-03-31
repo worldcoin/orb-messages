@@ -25,6 +25,7 @@ message JetsonToSec
         orb.mcu.FirmwareConfirmPrimary fw_image_primary_confirm = 23;
         orb.mcu.SyncDiagData sync_diag_data = 24;
         orb.mcu.DiagTest diag_test = 25;
+        orb.mcu.Ping ping = 26;
     }
 }
 
@@ -38,15 +39,17 @@ message SecToJetson
         orb.mcu.Versions versions = 2;
         orb.mcu.Log log = 3;
         orb.mcu.sec.SEResponse se_response = 4;
-        orb.mcu.sec.private.Tamper tampered = 5 [deprecated = true];
+        orb.mcu.sec.private.Tamper tampered = 5 [ deprecated = true ];
         orb.mcu.BatteryStatus battery_status = 7;
         orb.mcu.FatalError fatal_error = 8;
-        orb.mcu.sec.private.TamperRaw tamper_raw = 9 [deprecated = true];
-        orb.mcu.sec.private.TamperStates tamper_states = 10 [deprecated = true];
+        orb.mcu.sec.private.TamperRaw tamper_raw = 9 [ deprecated = true ];
+        orb.mcu.sec.private.TamperStates tamper_states = 10
+            [ deprecated = true ];
         orb.mcu.Temperature temperature = 11;
         orb.mcu.MemfaultEvent memfault_event = 12;
         orb.mcu.HardwareDiagnostic hardware_diag = 13;
         orb.mcu.sec.Tamper tamper = 14;
+        orb.mcu.Ping pong = 15;
     }
 }
 
@@ -71,10 +74,13 @@ message SEResponse
 }
 
 /// Contains tamper information serialized in a self-describing format. It is
-/// "opaque" because the schema of the tamper message is not known by orb-messages.
-/// Inspecting the tamper message is instead done at runtime by other software.
-message Tamper {
-    oneof payload { 
+/// "opaque" because the schema of the tamper message is not known by
+/// orb-messages. Inspecting the tamper message is instead done at runtime by
+/// other software.
+message Tamper
+{
+    oneof payload
+    {
         /// Note: these are *not* minified, they are still using string based
         /// identifiers for fields.
         bytes unencrypted_cbor = 1;
