@@ -344,3 +344,11 @@ message DiagTest
     }
     Action action = 1;
 }
+
+// Message to test communication, initiated by Jetson.
+// MCU must respond with the same content
+message Ping
+{
+    uint32 counter = 1;
+    bytes test = 2;
+}
