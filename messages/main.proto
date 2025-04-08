@@ -788,6 +788,7 @@ message ShutdownScheduled
         UNSPECIFIED = 0;
         BATTERY_REMOVED = 1;
         JETSON_REQUESTED_REBOOT = 2;
+        HEARTBEAT_TIMEOUT = 3;
     }
     ShutdownReason shutdown_reason = 1;
     optional uint32 ms_until_shutdown = 2;
