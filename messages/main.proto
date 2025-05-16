@@ -60,6 +60,7 @@ message JetsonToMcu
         WhiteLEDsBrightness white_leds_brightness = 45;
         orb.mcu.SyncDiagData sync_diag_data = 46;
         orb.mcu.DiagTest diag_test = 47;
+        Polarizer polarizer = 48;
     }
 }
 
@@ -792,4 +793,25 @@ message ShutdownScheduled
     }
     ShutdownReason shutdown_reason = 1;
     optional uint32 ms_until_shutdown = 2;
+}
+
+message Polarizer
+{
+    enum Command {
+        // perform homing procedure which last a few seconds
+        // during that time, no command can be accepted
+        POLARIZER_HOME = 0;
+        // commands to set a specific glass
+        POLARIZER_PASS_THROUGH = 1;
+        POLARIZER_0_HORIZONTAL = 2;
+        POLARIZER_90_VERTICAL = 3;
+
+        // see angle below
+        POLARIZER_CUSTOM_ANGLE = 4;
+    }
+    Command command = 1;
+    uint32 angle_decidegrees =
+        2; // with `POLARIZER_CUSTOM_ANGLE` only, [0, 3600 decidegrees]
+           // 0º = home angle = passthrough glass
+    uint32 speed = 3; // (optional) ms per turn
 }
