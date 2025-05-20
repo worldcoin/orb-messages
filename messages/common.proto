@@ -352,3 +352,22 @@ message Ping
     uint32 counter = 1;
     bytes test = 2;
 }
+
+message Time
+{
+    message Date
+    {
+        uint32 year = 1;
+        uint32 month = 2;
+        uint32 day = 3;
+        uint32 hour = 4;
+        uint32 min = 5;
+        uint32 sec = 6;
+    }
+    // allows to set time with two different formats
+    oneof format
+    {
+        Date human_readable = 1;
+        uint64 epoch_time = 2;
+    }
+}

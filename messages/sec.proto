@@ -26,6 +26,7 @@ message JetsonToSec
         orb.mcu.SyncDiagData sync_diag_data = 24;
         orb.mcu.DiagTest diag_test = 25;
         orb.mcu.Ping ping = 26;
+        orb.mcu.Time set_time = 27;
     }
 }
 
