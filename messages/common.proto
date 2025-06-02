@@ -127,6 +127,7 @@ message Hardware
         HW_VERSION_DIAMOND_B3 = 22 [ deprecated = true ];
         HW_VERSION_DIAMOND_EVT = 23; // v4.3
         HW_VERSION_DIAMOND_V4_4 = 24;
+        HW_VERSION_DIAMOND_V4_5 = 25;
     }
 
     enum FrontUnitVersion {
@@ -138,6 +139,7 @@ message Hardware
         FRONT_UNIT_VERSION_V6_3A = 5;
         FRONT_UNIT_VERSION_V6_3B = 6;
         FRONT_UNIT_VERSION_V6_3C = 7;
+        FRONT_UNIT_VERSION_V6_3D = 8;
     }
 
     enum PowerBoardVersion {
@@ -147,6 +149,7 @@ message Hardware
         POWER_BOARD_VERSION_V1_2 = 3;
         POWER_BOARD_VERSION_V1_3 = 4;
         POWER_BOARD_VERSION_V1_4 = 5;
+        POWER_BOARD_VERSION_V1_5 = 6;
     }
 
     enum ResetBoardVersion {
