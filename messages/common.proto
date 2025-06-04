@@ -187,11 +187,13 @@ message Temperature
         MAIN_BOARD_AUDIO_AMPLIFIER = 15;
         POWER_BOARD_SUPER_CAP_CHARGER = 16;
         POWER_BOARD_PVCC_SUPPLY = 17;
-        POWER_BOARD_SUPER_CAPS_LEFT = 18;
-        POWER_BOARD_SUPER_CAPS_RIGHT = 19;
-        FRONT_UNIT_850_730_LEFT_TOP = 20;
-        FRONT_UNIT_850_730_LEFT_BOTTOM = 21;
-        FRONT_UNIT_850_730_RIGHT_TOP = 22;
+        POWER_BOARD_SUPER_CAPS_LEFT = 18 [ deprecated = true ];
+        POWER_BOARD_SUPER_CAPS_RIGHT = 19 [ deprecated = true ];
+
+        // grouped front unit temperature sensors
+        FRONT_UNIT_850_730_LEFT_TOP = 20 [ deprecated = true ];
+        FRONT_UNIT_850_730_LEFT_BOTTOM = 21 [ deprecated = true ];
+        FRONT_UNIT_850_730_RIGHT_TOP = 22 [ deprecated = true ];
         FRONT_UNIT_850_730_RIGHT_BOTTOM = 23;
         FRONT_UNIT_940_LEFT_TOP = 24;
         FRONT_UNIT_940_LEFT_BOTTOM = 25;
@@ -199,10 +201,18 @@ message Temperature
         FRONT_UNIT_940_RIGHT_BOTTOM = 27;
         FRONT_UNIT_940_CENTER_TOP = 28 [ deprecated = true ];
         FRONT_UNIT_940_CENTER_BOTTOM = 29 [ deprecated = true ];
-        FRONT_UNIT_WHITE_TOP = 30;
+        FRONT_UNIT_WHITE_TOP = 30 [ deprecated = true ];
         FRONT_UNIT_SHROUD_RGB_TOP = 31;
-        FRONT_UNIT_850_CENTER_TOP = 32;
+        FRONT_UNIT_850_CENTER_TOP = 32 [ deprecated = true ];
         FRONT_UNIT_850_CENTER_BOTTOM = 33;
+        FRONT_UNIT_850_LEFT_TOP = 34;
+        FRONT_UNIT_850_LEFT_BOTTOM = 35;
+        FRONT_UNIT_850_RIGHT_TOP = 36;
+        FRONT_UNIT_WHITE_RGB_RIGHT_BOT = 37;
+        FRONT_UNIT_WHITE_RGB_LEFT_BOT = 38;
+
+        POWER_BOARD_SUPER_CAPS_BOT = 50;
+        POWER_BOARD_12V_CAPS_BOT = 51;
     }
 
     TemperatureSource source = 1;
