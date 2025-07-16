@@ -298,6 +298,32 @@ message HardwareDiagnostic
     Status status = 2;
 }
 
+message HardwareState
+{
+    enum Status {
+        STATUS_SUCCESS = 0x00;
+        STATUS_ERROR_INTERNAL = 0x01;
+        STATUS_ERROR_NO_MEM = 0x02;
+        STATUS_ERROR_NOT_FOUND = 0x03;
+        STATUS_ERROR_INVALID_PARAM = 0x04;
+        STATUS_ERROR_INVALID_STATE = 0x05;
+        STATUS_ERROR_INVALID_ADDR = 0x06;
+        STATUS_ERROR_BUSY = 0x07;
+        STATUS_ERROR_OFFLINE = 0x08;
+        STATUS_ERROR_FORBIDDEN = 0x09;
+        STATUS_ERROR_TIMEOUT = 0x0A;
+        STATUS_ERROR_NOT_INITIALIZED = 0x0B;
+        STATUS_ERROR_ASSERT_FAILS = 0x0C;
+        STATUS_ERROR_ALREADY_INITIALIZED = 0x0D;
+        STATUS_ERROR_NOT_SUPPORTED = 0x0E;
+        STATUS_ERROR_UNSAFE = 0x0F;
+    }
+    string source_name = 1; // human-readable source name, e.g. "ir_leds"
+    Status status = 2;      // error code, matches mcu ret_code_t enum
+    string message =
+        3; // human-readable message, e.g. "ir_leds not initialized"
+}
+
 message FirmwareVersion
 {
     uint32 major = 1;

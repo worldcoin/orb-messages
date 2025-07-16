@@ -2,3 +2,5 @@ orb.mcu.FirmwareUpdateData.image_block max_size: 39
 orb.mcu.Log.log max_length: 50
 orb.mcu.MemfaultEvent.chunk max_size: 50
 orb.mcu.Ping.test max_size: 100
+orb.mcu.HardwareState.source_name max_length: 11
+orb.mcu.HardwareState.message max_length: 35
