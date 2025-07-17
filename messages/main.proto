@@ -87,7 +87,8 @@ message McuToJetson
         GNSSDataPartial gnss_partial = 17;
         AmbientLight front_als = 18;
         orb.mcu.Hardware hardware = 19;
-        orb.mcu.HardwareDiagnostic hardware_diag = 20;
+        orb.mcu.HardwareDiagnostic hardware_diag = 20
+            [ deprecated = true ]; // deprecated, use hw_state instead
         BatteryResetReason battery_reset_reason = 21;
         BatteryDiagnosticSafety battery_diag_safety = 22;
         BatteryDiagnosticPermanentFail battery_diag_permanent_fail = 23;
@@ -98,6 +99,7 @@ message McuToJetson
         orb.mcu.MemfaultEvent memfault_event = 28;
         BatteryStateOfHealth battery_state_of_health = 29;
         ShutdownScheduled shutdown = 30;
+        orb.mcu.HardwareState hw_state = 31;
     }
 }
 
