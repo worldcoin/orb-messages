@@ -128,6 +128,7 @@ message Hardware
         HW_VERSION_DIAMOND_EVT = 23; // v4.3
         HW_VERSION_DIAMOND_V4_4 = 24;
         HW_VERSION_DIAMOND_V4_5 = 25;
+        HW_VERSION_DIAMOND_V4_6 = 26;
     }
 
     enum FrontUnitVersion {
