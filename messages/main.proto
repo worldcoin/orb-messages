@@ -62,6 +62,7 @@ message JetsonToMcu
         orb.mcu.DiagTest diag_test = 47;
         Polarizer polarizer = 48;
         PowerCycle power_cycle = 49;
+        orb.mcu.Time set_time = 50;
     }
 }
 
