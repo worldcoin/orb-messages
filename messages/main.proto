@@ -14,7 +14,7 @@ message JetsonToMcu
 
     oneof payload
     {
-        ShutdownWithDelay shutdown = 2;
+        ShutdownWithDelay shutdown = 2 [ deprecated = true ]; // never used
         orb.mcu.RebootWithDelay reboot = 3;
         orb.mcu.Temperature temperature = 4;
         MirrorAngle mirror_angle = 5;
@@ -63,6 +63,7 @@ message JetsonToMcu
         Polarizer polarizer = 48;
         PowerCycle power_cycle = 49;
         orb.mcu.Time set_time = 50;
+        RebootOrb reboot_orb = 51;
     }
 }
 
@@ -127,6 +128,17 @@ message InfraredLEDs
 message ShutdownWithDelay
 {
     uint32 delay_s = 1; // [0...30] seconds
+}
+
+// Reboot the orb, ie, the main mcu *and* jetson.
+// Reboot can be forced after `force_reboot_timeout_s` seconds, but a
+// shutdown request from the Jetson is preferred (SHUTDOWN_REQ gpio).
+// This message should be sent **along with** shutting down properly the
+// Jetson, in any case.
+message RebootOrb
+{
+    uint32 force_reboot_timeout_s =
+        1; // [10...60] seconds or 0 to disable force-reboot
 }
 
 message StartTriggeringIrEyeCamera {}
