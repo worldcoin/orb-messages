@@ -26,9 +26,12 @@ message Ack
     ErrorCode error = 2;
 }
 
-// Note: if a new firmware image has been loaded in the microcontroller's
-// secondary slot, the bootloader will try to update the application. In
-// this particular case, the Jetson will be turned off.
+// Reboot the microcontroller with a delay (seconds)
+// With main mcu, the Jetson is turned off as long as the main mcu is waiting
+// for a button press. See RebootOrb to fully reboot the Orb with a command.
+//
+// Note: if a new firmware image has been installed by the bootlader, the app
+// will also boot the Jetson
 message RebootWithDelay
 {
     uint32 delay = 1; // [0...60] seconds
