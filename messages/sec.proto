@@ -51,6 +51,7 @@ message SecToJetson
         orb.mcu.HardwareDiagnostic hardware_diag = 13;
         orb.mcu.sec.Tamper tamper = 14;
         orb.mcu.Ping pong = 15;
+        orb.mcu.HardwareState hw_state = 16;
     }
 }
 
