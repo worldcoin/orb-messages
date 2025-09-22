@@ -26,6 +26,7 @@ repos:
       - id: prettier
         args: [--prose-wrap, always] # Enforce 80-column limit in Markdown files
         files: \.(js|ts|jsx|tsx|css|less|html|json|markdown|md|yaml|yml)$
+        exclude: .github/workflows/security-scorecard-deploy.yml
 
   - repo: https://github.com/sirosen/check-jsonschema
     rev: 0.28.0
