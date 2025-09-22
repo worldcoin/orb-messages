@@ -46,7 +46,7 @@ source materials not be used:
 - In any activity or manner that violates, or supports, assists, facilitates,
   enables, constitutes or is otherwise deemed to be a violation of the Universal
   Declaration of Human Rights
-  (https://www.un.org/en/universaldeclaration-human-rights/), the International
+  (https://www.un.org/en/about-us/universal-declaration-of-human-rights), the International
   Covenant on Civil and Political Rights
   (https://www.ohchr.org/en/professionalinterest/pages/ccpr.aspx), the
   International Labor Organization Declaration on Fundamental Principles and
