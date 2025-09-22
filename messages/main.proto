@@ -514,13 +514,17 @@ message PerformMirrorHoming
 
 message PowerButton { bool pressed = 1; }
 
-// Battery voltages in mV
+// Battery or corded power supply voltages in mV
 message BatteryVoltage
 {
     int32 battery_cell1_mv = 1;
     int32 battery_cell2_mv = 2;
     int32 battery_cell3_mv = 3;
     int32 battery_cell4_mv = 4;
+
+    // When supplied, it means an AC/DC adapter is connected;
+    // not a battery. The measured value from ADC is provided (VBAT_SW).
+    int32 corded_power_supply_mv = 5;
 }
 
 message BatteryDiagnosticCommon
