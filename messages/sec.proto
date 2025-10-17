@@ -55,6 +55,12 @@ message SecToJetson
     }
 }
 
+message SecToMain
+{
+    // no ack for mcu to mcu comms
+    oneof payload { orb.mcu.Ping ping_pong = 1; }
+}
+
 message SERequest
 {
     enum RequestType {
