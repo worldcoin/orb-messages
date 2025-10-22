@@ -812,7 +812,7 @@ message ShutdownScheduled
         HEARTBEAT_TIMEOUT = 3;
     }
     ShutdownReason shutdown_reason = 1;
-    optional uint32 ms_until_shutdown = 2;
+    uint32 ms_until_shutdown = 2;
 }
 
 message Polarizer
