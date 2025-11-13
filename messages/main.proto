@@ -64,6 +64,7 @@ message JetsonToMcu
         PowerCycle power_cycle = 49;
         orb.mcu.Time set_time = 50;
         RebootOrb reboot_orb = 51;
+        BootComplete boot_complete = 52;
     }
 }
 
@@ -140,6 +141,9 @@ message RebootOrb
     uint32 force_reboot_timeout_s =
         1; // [10...60] seconds or 0 to disable force-reboot
 }
+
+// Indicate to the MCU that the Jetson has completed its boot process
+message BootComplete {}
 
 message StartTriggeringIrEyeCamera {}
 message StopTriggeringIrEyeCamera {}
