@@ -52,6 +52,7 @@ message SecToJetson
         orb.mcu.sec.Tamper tamper = 14;
         orb.mcu.Ping pong = 15;
         orb.mcu.HardwareState hw_state = 16;
+        orb.mcu.Time local_time = 17;
     }
 }
 

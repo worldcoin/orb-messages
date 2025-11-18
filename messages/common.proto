@@ -110,6 +110,8 @@ message ValueGet
         BATTERY_STATUS = 3;
         // Ask if cone is connected
         CONE_PRESENT = 4;
+        // Ask mcu's local date
+        DATE = 5;
     }
     Value value = 1;
 }
