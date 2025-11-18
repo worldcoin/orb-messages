@@ -65,6 +65,8 @@ message JetsonToMcu
         orb.mcu.Time set_time = 50;
         RebootOrb reboot_orb = 51;
         BootComplete boot_complete = 52;
+        StartTriggeringRgbFaceCamera start_triggering_rgb_face_camera = 53;
+        StopTriggeringRgbFaceCamera stop_triggering_rgb_face_camera = 54;
     }
 }
 
@@ -153,6 +155,10 @@ message StopTriggeringIrFaceCamera {}
 
 message StartTriggering2dTofCamera {}
 message StopTriggering2dTofCamera {}
+
+// Diamond only
+message StartTriggeringRgbFaceCamera {}
+message StopTriggeringRgbFaceCamera {}
 
 message RgbColor
 {
