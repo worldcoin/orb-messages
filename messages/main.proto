@@ -109,6 +109,12 @@ message McuToJetson
     }
 }
 
+message MainToSec
+{
+    // no ack for mcu to mcu comms
+    oneof payload { orb.mcu.Ping ping_pong = 1; }
+}
+
 message InfraredLEDs
 {
     enum Wavelength {

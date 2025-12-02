@@ -28,5 +28,7 @@ message McuMessage
         main.McuToJetson m_message = 3;
         sec.JetsonToSec jetson_to_sec_message = 4;
         sec.SecToJetson sec_to_jetson_message = 5;
+        main.MainToSec main_to_sec_message = 6;
+        sec.SecToMain sec_to_main_message = 7;
     }
 }
