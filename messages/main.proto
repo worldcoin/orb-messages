@@ -445,7 +445,7 @@ message Voltage
         SUPPLY_3V3_WIFI = 12;
         SUPPLY_3V3_LTE = 13;
         SUPPLY_3V6 = 14;
-        SUPPLY_1V2 = 15;
+        SUPPLY_1V2 = 15 [ deprecated = true ];
         SUPPLY_2V8 = 16;
         SUPPLY_1V8_SEC = 17;
         SUPPLY_4V7_SEC = 18;
@@ -458,6 +458,7 @@ message Voltage
         SUPER_CAP_5 = 25;
         SUPER_CAP_6 = 26;
         SUPER_CAP_7 = 27;
+        SUPPLY_3V3_LDO = 28;
     }
 
     VoltageSource source = 1;
