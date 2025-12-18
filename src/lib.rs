@@ -3,6 +3,7 @@
 use thiserror::Error;
 
 pub use ::prost;
+pub use serde;
 
 #[allow(clippy::all, clippy::pedantic)]
 mod generated {
@@ -24,6 +25,9 @@ mod generated {
     }
 }
 pub use generated::*;
+
+pub mod mcu_zenoh;
+pub use mcu_zenoh::{NotAZenohPayload, ZenohKey};
 
 impl core::fmt::Display for ack::ErrorCode {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
@@ -104,5 +108,53 @@ impl From<ack::ErrorCode> for CommonAckError {
             E::InvalidState => Self::InvalidState,
             E::Forbidden => Self::Forbidden,
         }
+    }
+}
+
+impl std::fmt::Display for FirmwareVersion {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "v{}.{}.{}+{:x}",
+            self.major, self.minor, self.patch, self.commit_hash
+        )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_firmware_version_display() {
+        let version = FirmwareVersion {
+            major: 1,
+            minor: 2,
+            patch: 3,
+            commit_hash: 0xabc123,
+        };
+        assert_eq!(version.to_string(), "v1.2.3+abc123");
+    }
+
+    #[test]
+    fn test_firmware_version_display_zero_commit() {
+        let version = FirmwareVersion {
+            major: 0,
+            minor: 0,
+            patch: 1,
+            commit_hash: 0,
+        };
+        assert_eq!(version.to_string(), "v0.0.1+0");
+    }
+
+    #[test]
+    fn test_firmware_version_display_large_values() {
+        let version = FirmwareVersion {
+            major: 255,
+            minor: 128,
+            patch: 64,
+            commit_hash: 0xdeadbeef,
+        };
+        assert_eq!(version.to_string(), "v255.128.64+deadbeef");
     }
 }

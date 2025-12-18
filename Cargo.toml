@@ -8,11 +8,12 @@ publish = false
 edition = "2021"
 license = "MIT OR (Apache-2.0 WITH LLVM-exception)"
 repository = "https://github.com/worldcoin/orb-messages"
-rust-version = "1.74" # See rust-toolchain.toml
+rust-version = "1.91" # See rust-toolchain.toml
 
 [dependencies]
 prost = "0.12.3"
 thiserror = "1"
+serde = { version = "1", features = ["derive"] }
 
 [build-dependencies]
 prost-build = "0.12.3"
