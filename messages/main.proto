@@ -106,7 +106,8 @@ message McuToJetson
         orb.mcu.MemfaultEvent memfault_event = 28;
         BatteryStateOfHealth battery_state_of_health = 29; // @zenoh
         ShutdownScheduled shutdown = 30;
-        orb.mcu.HardwareState hw_state = 31; // @zenoh
+        orb.mcu.HardwareState hw_state = 31;            // @zenoh
+        PolarizerWheelState polarizer_wheel_state = 32; // @zenoh
     }
 }
 
@@ -852,6 +853,29 @@ message Polarizer
         2; // with `POLARIZER_CUSTOM_ANGLE` only, [0, 3600 decidegrees]
            // 0º = home angle = passthrough glass
     uint32 speed = 3; // (optional) ms per turn
+}
+
+// Report polarizer wheel state when a new standard position is reached
+// Sent from main MCU to Jetson after encoder-assisted positioning completes
+message PolarizerWheelState
+{
+    enum Position {
+        UNKNOWN = 0;
+        PASS_THROUGH = 1; // wheel at 0° - clear glass, no polarization
+        VERTICAL = 2;     // wheel at 120° - vertically polarized (90° pol.)
+        HORIZONTAL = 3;   // wheel at 240° - horizontally polarized (0° pol.)
+    }
+
+    Position previous_position = 1;
+    Position current_position = 2;
+
+    // Step loss detected by encoder during motion (in microsteps)
+    // This is the difference between the expected number of steps to
+    // reach the encoder & the actual number of steps applied
+    uint32 step_loss_microsteps = 3;
+
+    // Time taken to reach the position (in milliseconds)
+    uint32 transition_time_ms = 4;
 }
 
 // on prod images: only heat camera is supported
