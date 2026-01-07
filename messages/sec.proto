@@ -37,21 +37,21 @@ message SecToJetson
     oneof payload
     {
         orb.mcu.Ack ack = 1;
-        orb.mcu.Versions versions = 2;
+        orb.mcu.Versions versions = 2; // @zenoh
         orb.mcu.Log log = 3;
         orb.mcu.sec.SEResponse se_response = 4;
         orb.mcu.sec.private.Tamper tampered = 5 [ deprecated = true ];
-        orb.mcu.BatteryStatus battery_status = 7;
+        orb.mcu.BatteryStatus battery_status = 7; // @zenoh
         orb.mcu.FatalError fatal_error = 8;
         orb.mcu.sec.private.TamperRaw tamper_raw = 9 [ deprecated = true ];
         orb.mcu.sec.private.TamperStates tamper_states = 10
             [ deprecated = true ];
-        orb.mcu.Temperature temperature = 11;
+        orb.mcu.Temperature temperature = 11; // @zenoh
         orb.mcu.MemfaultEvent memfault_event = 12;
         orb.mcu.HardwareDiagnostic hardware_diag = 13;
-        orb.mcu.sec.Tamper tamper = 14;
+        orb.mcu.sec.Tamper tamper = 14; // @zenoh
         orb.mcu.Ping pong = 15;
-        orb.mcu.HardwareState hw_state = 16;
+        orb.mcu.HardwareState hw_state = 16; // @zenoh
         orb.mcu.Time local_time = 17;
     }
 }
