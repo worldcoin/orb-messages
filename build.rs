@@ -81,7 +81,7 @@ fn generate_zenoh_keys(messages_dir: &Path) -> String {
     for (variant_name, _field_name) in &main_payloads {
         let snake_name = to_snake_case(variant_name);
         output.push_str(&format!(
-            "            Self::{}(_) => Ok(\"mcu/main/{}\"),\n",
+            "            Self::{}(_) => Ok(\"main/{}\"),\n",
             variant_name, snake_name
         ));
     }
@@ -100,7 +100,7 @@ fn generate_zenoh_keys(messages_dir: &Path) -> String {
     for (variant_name, _field_name) in &sec_payloads {
         let snake_name = to_snake_case(variant_name);
         output.push_str(&format!(
-            "            Self::{}(_) => Ok(\"mcu/sec/{}\"),\n",
+            "            Self::{}(_) => Ok(\"sec/{}\"),\n",
             variant_name, snake_name
         ));
     }
