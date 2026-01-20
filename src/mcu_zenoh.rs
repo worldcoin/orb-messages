@@ -15,7 +15,7 @@ impl std::error::Error for NotAZenohPayload {}
 /// Trait for types that have an associated Zenoh suffix key.
 ///
 /// The suffix is used to construct the full Zenoh key path for
-/// MCU-to-Jetson messages. The format is `mcu/{source}/{payload_name}` where:
+/// MCU-to-Jetson messages. The format is `{source}/{payload_name}` where:
 /// - `source` is either `main` or `sec` depending on which MCU sent the message
 /// - `payload_name` is the snake_case name of the payload type
 ///
@@ -43,7 +43,7 @@ pub trait ZenohKey {
     ///
     /// // Only works for @zenoh-marked payloads
     /// let payload = Payload::Versions(Default::default());
-    /// assert_eq!(payload.zenoh_suffix_key().unwrap(), "mcu/main/versions");
+    /// assert_eq!(payload.zenoh_suffix_key().unwrap(), "main/versions");
     /// ```
     fn zenoh_suffix_key(&self) -> Result<&'static str, NotAZenohPayload>;
 }
@@ -61,20 +61,20 @@ mod tests {
     fn test_main_payload_zenoh_keys() {
         // Only @zenoh-marked payloads have zenoh keys
         let versions = MainPayload::Versions(Default::default());
-        assert_eq!(versions.zenoh_suffix_key().unwrap(), "mcu/main/versions");
+        assert_eq!(versions.zenoh_suffix_key().unwrap(), "main/versions");
 
         let hardware = MainPayload::Hardware(Default::default());
-        assert_eq!(hardware.zenoh_suffix_key().unwrap(), "mcu/main/hardware");
+        assert_eq!(hardware.zenoh_suffix_key().unwrap(), "main/hardware");
     }
 
     #[test]
     fn test_sec_payload_zenoh_keys() {
         // Only @zenoh-marked payloads have zenoh keys
         let versions = SecPayload::Versions(Default::default());
-        assert_eq!(versions.zenoh_suffix_key().unwrap(), "mcu/sec/versions");
+        assert_eq!(versions.zenoh_suffix_key().unwrap(), "sec/versions");
 
         let tamper = SecPayload::Tamper(Default::default());
-        assert_eq!(tamper.zenoh_suffix_key().unwrap(), "mcu/sec/tamper");
+        assert_eq!(tamper.zenoh_suffix_key().unwrap(), "sec/tamper");
     }
 
     #[test]
