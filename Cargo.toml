@@ -12,7 +12,7 @@ rust-version = "1.91" # See rust-toolchain.toml
 
 [dependencies]
 prost = "0.12.3"
-thiserror = "1"
+thiserror = { version = "2.0.17", default-features = false }
 serde = { version = "1", features = ["derive"] }
 
 [build-dependencies]
