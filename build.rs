@@ -33,6 +33,15 @@ fn main() {
             ".",
             "#[derive(crate::serde::Serialize, crate::serde::Deserialize)]",
         )
+        // Add strum::EnumIter derive to McuToJetson and SecToJetson Payload enums
+        .enum_attribute(
+            "orb.mcu.main.McuToJetson.payload",
+            "#[derive(crate::strum::EnumIter)]",
+        )
+        .enum_attribute(
+            "orb.mcu.sec.SecToJetson.payload",
+            "#[derive(crate::strum::EnumIter)]",
+        )
         .compile_protos(&[messages_dir.join("mcu.proto")], &[messages_dir, priv_dir])
         .expect("failed to compile protobufs");
 

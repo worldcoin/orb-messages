@@ -4,6 +4,7 @@ use thiserror::Error;
 
 pub use ::prost;
 pub use serde;
+pub use strum;
 
 #[allow(clippy::all, clippy::pedantic)]
 mod generated {
