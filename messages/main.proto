@@ -847,6 +847,11 @@ message Polarizer
 
         // see angle below
         POLARIZER_CUSTOM_ANGLE = 4;
+
+        // perform calibration procedure & go back home
+        // wheel needs to be initialized, at passthrough glass
+        // position (homed) and idle
+        POLARIZER_CALIBRATE_HOME = 5;
     }
     Command command = 1;
     uint32 angle_decidegrees =
