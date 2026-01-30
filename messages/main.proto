@@ -857,7 +857,10 @@ message Polarizer
     uint32 angle_decidegrees =
         2; // with `POLARIZER_CUSTOM_ANGLE` only, [0, 3600 decidegrees]
            // 0º = home angle = passthrough glass
-    uint32 speed = 3; // (optional) ms per turn
+    uint32 speed =
+        3; // (optional) ms per turn, when 0/unset: use fastest with ramps
+    bool shortest_path = 4; // (optional) use shortest path, which changes the
+                            // motor's direction (/!\ less accurate)
 }
 
 // Report polarizer wheel state when a new standard position is reached
