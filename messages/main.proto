@@ -67,6 +67,7 @@ message JetsonToMcu
         BootComplete boot_complete = 52;
         StartTriggeringRgbFaceCamera start_triggering_rgb_face_camera = 53;
         StopTriggeringRgbFaceCamera stop_triggering_rgb_face_camera = 54;
+        PolarizerWheelSettings polarizer_wheel_settings = 55;
     }
 }
 
@@ -884,6 +885,21 @@ message PolarizerWheelState
 
     // Time taken to reach the position (in milliseconds)
     uint32 transition_time_ms = 4;
+}
+
+// Configure polarizer wheel motion parameters
+// Settings persist until changed or MCU reset
+message PolarizerWheelSettings
+{
+    // Acceleration in steps/s² (not microsteps)
+    // Default: 8000 steps/s²
+    // Set to 0 to reset to default
+    uint32 acceleration_steps_per_s2 = 1;
+
+    // Maximum speed in ms per full turn
+    // Default: 200 ms/turn
+    // Set to 0 to reset to default
+    uint32 max_speed_ms_per_turn = 2;
 }
 
 // on prod images: only heat camera is supported
