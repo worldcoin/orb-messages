@@ -885,6 +885,20 @@ message PolarizerWheelState
 
     // Time taken to reach the position (in milliseconds)
     uint32 transition_time_ms = 4;
+
+    // Current motion settings
+    uint32 acceleration_steps_per_s2 = 5; // Current acceleration in steps/s²
+    uint32 max_speed_ms_per_turn = 6;     // Current max speed in ms/turn
+
+    // Calibration data (bump widths in microsteps)
+    message CalibrationData
+    {
+        bool valid = 1; // true if calibration completed successfully
+        uint32 pass_through_width = 2; // bump width at pass-through position
+        uint32 vertical_width = 3;     // bump width at vertical position
+        uint32 horizontal_width = 4;   // bump width at horizontal position
+    }
+    CalibrationData calibration = 7;
 }
 
 // Configure polarizer wheel motion parameters
