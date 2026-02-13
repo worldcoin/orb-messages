@@ -68,6 +68,7 @@ message JetsonToMcu
         StartTriggeringRgbFaceCamera start_triggering_rgb_face_camera = 53;
         StopTriggeringRgbFaceCamera stop_triggering_rgb_face_camera = 54;
         PolarizerWheelSettings polarizer_wheel_settings = 55;
+        RebootSecurityMcu reboot_security_mcu = 56;
     }
 }
 
@@ -155,6 +156,10 @@ message RebootOrb
 
 // Indicate to the MCU that the Jetson has completed its boot process
 message BootComplete {}
+
+// Request the main MCU to signal the security MCU to reboot itself
+// Diamond only
+message RebootSecurityMcu {}
 
 message StartTriggeringIrEyeCamera {}
 message StopTriggeringIrEyeCamera {}
