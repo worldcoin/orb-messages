@@ -135,6 +135,7 @@ message Hardware
         HW_VERSION_DIAMOND_V4_5 = 25;
         HW_VERSION_DIAMOND_V4_6 = 26;
         HW_VERSION_DIAMOND_V4_7 = 27;
+        HW_VERSION_DIAMOND_V4_8 = 28;
     }
 
     enum FrontUnitVersion {
@@ -159,6 +160,7 @@ message Hardware
         POWER_BOARD_VERSION_V1_4 = 5;
         POWER_BOARD_VERSION_V1_5 = 6;
         POWER_BOARD_VERSION_V1_6 = 7;
+        POWER_BOARD_VERSION_V1_7 = 8;
     }
 
     enum ResetBoardVersion {
