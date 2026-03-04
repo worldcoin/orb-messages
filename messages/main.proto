@@ -142,15 +142,29 @@ message ShutdownWithDelay
     uint32 delay_s = 1; // [0...30] seconds
 }
 
-// Reboot the orb, ie, the main mcu *and* jetson.
+// Reboot behavior for the orb, ie, the main mcu *and* jetson.
+//
 // Reboot can be forced after `force_reboot_timeout_s` seconds, but a
 // shutdown request from the Jetson is preferred (SHUTDOWN_REQ gpio).
 // This message should be sent **along with** shutting down properly the
 // Jetson, in any case.
 message RebootOrb
 {
+    enum BootBehavior {
+        // fully reboot the orb on next shutdown/reboot (might not persist on
+        // power loss)
+        BOOT_REBOOT_NEXT = 0;
+        // nominal behavior, wait for button press, config/state persists
+        // (always)
+        BOOT_BUTTON_PRESS_ALWAYS = 1;
+        // orb will automatically boot when powered on or rebooted, config/state
+        // persists (always)
+        BOOT_AUTO_ALWAYS_ON = 2;
+    }
+
     uint32 force_reboot_timeout_s =
         1; // [10...60] seconds or 0 to disable force-reboot
+    BootBehavior reboot_behavior = 2;
 }
 
 // Indicate to the MCU that the Jetson has completed its boot process
