@@ -242,6 +242,7 @@ message BatteryStatus
         CHARGING = 1;
         FULL = 2;
         BAD = 3;
+        SUSPEND = 4;
     }
 
     int32 voltage_mv = 1;
