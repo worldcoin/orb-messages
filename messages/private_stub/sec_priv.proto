@@ -10,3 +10,5 @@ message Tamper {}
 message TamperStates {}
 
 message TamperRaw {}
+
+message Cmd {}
