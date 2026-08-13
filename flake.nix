@@ -3,11 +3,14 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # Keep cargo-deny new enough to parse CVSS 4.0 advisories without updating
+    # the rest of the development environment.
+    nixpkgs-cargo-deny.url = "github:NixOS/nixpkgs/7a1a64774a5fd0b0cd39ac95d0e170ace8b266a0";
     # Provides eachDefaultSystem and other utility functions
     utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, utils }:
+  outputs = { self, nixpkgs, nixpkgs-cargo-deny, utils }:
 
     # This helper function is used to more easily abstract
     # over the host platform.
@@ -17,6 +20,7 @@
         p = {
           # The platform that you are running nix on and building from
           native = nixpkgs.legacyPackages.${system};
+          cargoDeny = nixpkgs-cargo-deny.legacyPackages.${system}.cargo-deny;
         };
       in
       {
@@ -40,7 +44,7 @@
             # Developer tools
             clang-tools
             cargo-binutils
-            cargo-deny
+            p.cargoDeny
             cargo-expand
             nixpkgs-fmt
             pre-commit
