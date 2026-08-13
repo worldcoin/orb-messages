@@ -27,6 +27,7 @@ message JetsonToSec
         orb.mcu.DiagTest diag_test = 25;
         orb.mcu.Ping ping = 26;
         orb.mcu.Time set_time = 27;
+        orb.mcu.sec.private.Cmd priv_cmd = 28;
     }
 }
 
